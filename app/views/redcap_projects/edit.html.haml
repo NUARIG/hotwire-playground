@@ -1,0 +1,38 @@
+%h1 Editing REDCap Project
+= turbo_frame_tag dom_id(@redcap_project) do
+  .divTableRow
+    = form_with(model: @redcap_project, id: dom_id(@redcap_project), class: 'redcap_project_form') do |form|
+      %div{class: 'divTableCell redcap_project_name'}
+        = form.text_field :name
+        - if validation_errors?(@redcap_project, :name)
+          %p.error= format_validation_errors(@redcap_project, :name)
+      %div{class: 'divTableCell redcap_project_api_token'}
+        = form.text_field :api_token
+      %div{class: 'divTableCell redcap_project_export_table_name'}
+        = @redcap_project.export_table_name
+      %div{class: 'divTableCell redcap_project_route_to_observation'}
+        .input-field.col.s12
+          %label
+            = form.check_box :route_to_observation
+            %span
+      %div{class: 'divTableCell redcap_project_insert_person'}
+        .input-field.col.s12
+          %label
+            = form.check_box :insert_person
+            %span
+      %div{class: 'divTableCell redcap_project_complete_instrument'}
+        .input-field.col.s12
+          %label
+            = form.check_box :complete_instrument
+            %span
+      %div{class: 'divTableCell redcap_project_api_import'}
+        .input-field.col.s12
+          %label
+            = form.check_box :api_import
+            %span
+      %div{class: 'divTableCell edit'}
+        %button{ :type => 'submit', class: 'waves-effect waves-light btn' }
+          Submit
+        = link_to "Cancel", @redcap_project
+
+
