@@ -6,19 +6,17 @@
       = redcap_project.api_token
     %div{class: 'divTableCell redcap_project_export_table_name'}
       = redcap_project.export_table_name
-    %div{class: 'divTableCell redcap_project_route_to_observation left-align'}
+    %div{class: 'divTableCell redcap_project_route_to_observation right-align'}
       = check_box_tag :route_to_observation,'route_to_observation', redcap_project.route_to_observation, disabled: true
       %span
-    %div{class: 'divTableCell redcap_project_insert_person left-align'}
+    %div{class: 'divTableCell redcap_project_insert_person right-align'}
       = check_box_tag :insert_person,'insert_person', redcap_project.insert_person, disabled: true
       %span
-    %div{class: 'divTableCell redcap_project_complete_instrument left-align'}
+    %div{class: 'divTableCell redcap_project_complete_instrument right-align'}
       = check_box_tag :complete_instrument,'complete_instrument', redcap_project.complete_instrument, disabled: true
       %span
-    %div{class: 'divTableCell redcap_project_api_import left-align'}
+    %div{class: 'divTableCell redcap_project_api_import right-align'}
       = check_box_tag :api_import,'api_import', redcap_project.api_import, disabled: true
       %span
-
-
     %div{class: 'divTableCell edit'}
       = link_to 'Edit', edit_redcap_project_url(redcap_project)

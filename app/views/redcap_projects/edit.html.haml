@@ -11,25 +11,21 @@
       %div{class: 'divTableCell redcap_project_export_table_name'}
         = @redcap_project.export_table_name
       %div{class: 'divTableCell redcap_project_route_to_observation'}
-        .input-field.col.s12
-          %label
-            = form.check_box :route_to_observation
-            %span
+        %label
+          = form.check_box :route_to_observation
+          %span
       %div{class: 'divTableCell redcap_project_insert_person'}
-        .input-field.col.s12
-          %label
-            = form.check_box :insert_person
-            %span
+        %label
+          = form.check_box :insert_person
+          %span
       %div{class: 'divTableCell redcap_project_complete_instrument'}
-        .input-field.col.s12
-          %label
-            = form.check_box :complete_instrument
-            %span
-      %div{class: 'divTableCell redcap_project_api_import'}
-        .input-field.col.s12
-          %label
-            = form.check_box :api_import
-            %span
+        %label
+          = form.check_box :complete_instrument
+          %span
+      %div{class: 'divTableCell redcap_project_api_import right-align'}
+        %label
+          = form.check_box :api_import
+          %span
       %div{class: 'divTableCell edit'}
         %button{ :type => 'submit', class: 'waves-effect waves-light btn' }
           Submit
