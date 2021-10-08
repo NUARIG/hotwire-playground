@@ -8,17 +8,13 @@
       = redcap_variable.field_type
     %div{class: 'divTableCell redcap_variable_field_type_normalized'}
       = redcap_variable.field_type_normalized
-    %div{class: 'divTableCell redcap_variable_field_label'}
-      = redcap_variable.field_label
-    %div{class: 'divTableCell redcap_variable_choices'}
-      = redcap_variable.choices
     %div{class: 'divTableCell redcap_variable_text_validation_type'}
       = redcap_variable.text_validation_type
     %div{class: 'divTableCell redcap_variable_field_annotation'}
       = redcap_variable.field_annotation
-    %div{class: 'divTableCell redcap_variable_curation_status'}
-      = redcap_variable.curation_status
     %div{class: 'divTableCell redcap_variable_field_type_curated'}
       = redcap_variable.field_type_curated
+    %div{class: 'divTableCell redcap_variable_curation_status'}
+      = redcap_variable.curation_status
     %div{class: 'divTableCell edit'}
       = link_to 'Edit', edit_redcap_project_redcap_data_dictionary_redcap_variable_url(redcap_project, redcap_variable)

@@ -47,4 +47,5 @@
       %li.tab.col.s3.m3
         = link_to 'People', '#'
     .col.s12
-      = render 'redcap_variables/index', redcap_project: @redcap_project, redcap_data_dictionary: @redcap_data_dictionary, redcap_variables: @redcap_variables
+      = turbo_frame_tag 'redcap_variables'  do
+        = render 'redcap_variables/index', redcap_project: @redcap_project, redcap_data_dictionary: @redcap_data_dictionary, redcap_variables: @redcap_variables

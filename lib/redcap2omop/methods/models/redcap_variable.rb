@@ -133,7 +133,7 @@ module Redcap2omop
             options = { sort_column: 'name', sort_direction: 'asc' }.merge(options)
 
             if search_token
-              s = where("lower(redcap2omop_redcap_variables.name) like ? OR lower(redcap2omop_redcap_variables.field_label) like ?", "%#{search_token}%", "%#{search_token}%")
+              s = where("lower(redcap2omop_redcap_variables.name) like ? OR lower(redcap2omop_redcap_variables.form_name) like ?", "%#{search_token}%", "%#{search_token}%")
             end
 
             sort = options[:sort_column] + ' ' + options[:sort_direction] + ', redcap2omop_redcap_variables.id ASC'

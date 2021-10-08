@@ -8,3 +8,8 @@ document.addEventListener('turbo:load', (event) => {
   var tabs = document.querySelectorAll('.tabs');
   M.Tabs.init(tabs, {});
 })
+
+
+document.addEventListener('turbo:frame-load', (event) => {
+  M.updateTextFields();
+})

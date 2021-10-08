@@ -25,21 +25,14 @@
             .divTableHead
               Field Type Normalized
             .divTableHead
-              Field Label
-            .divTableHead
-              Choices
-            .divTableHead
               Text Validation Type
             .divTableHead
               Field Annotation
             .divTableHead
-              Field Annotation
-            .divTableHead
-              Curation Status
-            .divTableHead
               Field Type Curated
             .divTableHead
               Curation Status
+            .divTableHead
         .divTableBody
           - redcap_variables.each do |redcap_variable|
             = render 'redcap_variables/redcap_variable', redcap_project: redcap_project, redcap_variable: redcap_variable
