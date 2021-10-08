@@ -61,3 +61,9 @@ p.error {
   color: #F44336;
   margin-top: 0;
 }
+
+//https://stackoverflow.com/questions/59215830/materializecss-elements-not-appearing-inside-a-tab
+.tabs {
+  overflow-x: visible;
+  overflow-y: visible;
+}

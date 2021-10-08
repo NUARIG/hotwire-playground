@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def active?(css_class, url_parameters)
+    current_page?(url_parameters) ? css_class : ''
+  end
+
   def sortable(column, title = nil)
     title ||= column.titleize
     css_class = column == sort_column ? "current #{sort_direction}" : nil

@@ -1,0 +1,47 @@
+.row
+  #redcap_variables.col.s12
+    .redcap_variables_header
+      = form_tag redcap_project_redcap_data_dictionary_redcap_variables_url(redcap_project), method: 'get', :id => 'search_redcap_variables_form'  do
+        .row
+          .search.input-field.col.s8
+            = label_tag :search, 'Search'
+            = text_field_tag :search, (params[:search].nil? ? '' : params[:search]), type: 'search'
+          .navigation.col.s4.right-align
+            %button{ :type => 'submit', :id => 'search_notes_button', class: 'waves-effect waves-light btn' }
+              Search
+            = link_to 'Clear', redcap_project_redcap_data_dictionary_redcap_variables_url(redcap_project)
+    .redcap_projects_list.col.s12.right-align
+      = will_paginate redcap_variables
+      .divTable
+        .divTableHeading
+          .divTableRow
+            .divTableHead
+              Name
+              / = sortable 'name'
+            .divTableHead
+              Form Name
+            .divTableHead
+              Field Type
+            .divTableHead
+              Field Type Normalized
+            .divTableHead
+              Field Label
+            .divTableHead
+              Choices
+            .divTableHead
+              Text Validation Type
+            .divTableHead
+              Field Annotation
+            .divTableHead
+              Field Annotation
+            .divTableHead
+              Curation Status
+            .divTableHead
+              Field Type Curated
+            .divTableHead
+              Curation Status
+        .divTableBody
+          - redcap_variables.each do |redcap_variable|
+            = render 'redcap_variables/redcap_variable', redcap_project: redcap_project, redcap_variable: redcap_variable
+      = will_paginate redcap_variables
+

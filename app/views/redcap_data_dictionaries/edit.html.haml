@@ -1,0 +1,50 @@
+.row.col.s12
+  %h1
+    Editing REDCap Data Dictionary
+  .divTable
+    .divTableHeading
+      .divTableRow
+        .divTableHead
+          Name
+        .divTableHead
+          Api Token
+        .divTableHead
+          Export Table Name
+        .divTableHead
+          Route To Observation
+        .divTableHead
+          Insert Person
+        .divTableHead
+          Complete Instrument
+        .divTableHead
+          API Import
+        .divTableHead
+    .divTableBody
+      .divTableRow
+        %div{class: 'divTableCell redcap_project_name'}
+          = @redcap_project.name
+        %div{class: 'divTableCell redcap_project_api_token'}
+          = @redcap_project.api_token
+        %div{class: 'divTableCell redcap_project_export_table_name'}
+          = @redcap_project.export_table_name
+        %div{class: 'divTableCell redcap_project_route_to_observation center-align'}
+          = check_box_tag :route_to_observation,'route_to_observation', @redcap_project.route_to_observation, disabled: true
+          %span
+        %div{class: 'divTableCell redcap_project_insert_person center-align'}
+          = check_box_tag :insert_person,'insert_person', @redcap_project.insert_person, disabled: true
+          %span
+        %div{class: 'divTableCell redcap_project_complete_instrument center-align'}
+          = check_box_tag :complete_instrument,'complete_instrument', @redcap_project.complete_instrument, disabled: true
+          %span
+        %div{class: 'divTableCell redcap_project_api_import center-align'}
+          = check_box_tag :api_import,'api_import', @redcap_project.api_import, disabled: true
+          %span
+.row
+  #sub-navigation.col.s12
+    %ul.tabs
+      %li.tab.col.s3.m3
+        = link_to 'Variables', edit_redcap_project_redcap_data_dictionary_url(@redcap_project), { target: '_self', class: "edit-redcap-data-dictionary-link #{active?('active', controller: '/redcap_data_dictionaries', action: 'edit', redcap_project_id: @redcap_project.id)}" }
+      %li.tab.col.s3.m3
+        = link_to 'People', '#'
+    .col.s12
+      = render 'redcap_variables/index', redcap_project: @redcap_project, redcap_data_dictionary: @redcap_data_dictionary, redcap_variables: @redcap_variables

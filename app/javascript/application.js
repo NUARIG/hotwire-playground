@@ -4,4 +4,7 @@ import "controllers"
 
 document.addEventListener('turbo:load', (event) => {
   M.updateTextFields();
+
+  var tabs = document.querySelectorAll('.tabs');
+  M.Tabs.init(tabs, {});
 })
