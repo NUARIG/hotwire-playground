@@ -1,0 +1,7 @@
+.row
+  #sub-navigation.col.s12
+    %ul.tabs
+      %li.tab.col.s3.m3
+        = link_to 'Variables', redcap_project_redcap_data_dictionary_redcap_variables_url(redcap_project),  class: "redcap-variables-link #{active?('active', controller: '/redcap_variables', action: 'index', redcap_project_id: redcap_project.id)}"
+      %li.tab.col.s3.m3
+        = link_to 'People', '#'

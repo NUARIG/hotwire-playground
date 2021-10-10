@@ -1,0 +1,9 @@
+.row
+  .col.s6.m4.input-field
+    %label{ for: 'redcap_project_name'}
+      Name
+    %input{ id: 'redcap_project_name', disabled: 'disabled', value: redcap_project.name, type: 'text' }
+  .col.s6.m4.input-field
+    %label{ for: 'redcap_project_api_token'}
+      API Token
+    %input{ id: 'redcap_project_api_token', disabled: 'disabled', value: redcap_project.api_token, type: 'text' }
