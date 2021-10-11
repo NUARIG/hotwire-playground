@@ -13,6 +13,9 @@ class RedcapVariablesController < ApplicationController
   end
 
   def edit
+    if @redcap_variable.redcap_variable_map.blank?
+      @redcap_variable.build_redcap_variable_map
+    end
   end
 
   def show

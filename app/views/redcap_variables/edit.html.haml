@@ -18,7 +18,6 @@
       %div{class: 'divTableCell redcap_variable_field_type_curated'}
         = @redcap_variable.field_type_curated
       %div{class: 'divTableCell redcap_variable_curation_status'}
-        / = form.text_field :curation_status
         %p
           %label
             = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED, checked: @redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED

@@ -1,3 +1,4 @@
+require './lib/redcap2omop/methods/models/redcap_variable_map'
 require './lib/redcap2omop/methods/models/redcap_variable_choice'
 require './lib/redcap2omop/methods/models/redcap_variable'
 require './lib/redcap2omop/methods/models/redcap_data_dictionary'
