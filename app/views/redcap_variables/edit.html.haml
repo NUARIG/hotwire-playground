@@ -1,6 +1,5 @@
 %h2
   Editing Variable
-
 = turbo_frame_tag dom_id(@redcap_variable)  do
   %li.collection-item
     = form_with(model: @redcap_variable, url: redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable), method: 'patch', id: dom_id(@redcap_variable), class: 'redcap_variable_form') do |form|
@@ -36,17 +35,19 @@
           %input{ id: 'redcap_variable_field_annotation', disabled: 'disabled', value: @redcap_variable.field_annotation, type: 'text' }
       .row
         .col.s6.m4.input-field
-          %p
-            %label
-              = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED, checked: @redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
-              %span
-                = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
-          %p
-            %label
-              = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED,  checked: @redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED
-              %span
-                = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED
+          %legend
+            Curation Status
+            %p
+              %label
+                = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED, checked: @redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
+                %span
+                  = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
+            %p
+              %label
+                = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED,  checked: @redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED
+                %span
+                  = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED
         .col.s6.right-align
           %button{ :type => 'submit', class: 'waves-effect waves-light btn' }
             Submit
-          = link_to "Cancel", redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable)
+          = link_to "Cancel", redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable), class: 'waves-effect waves-light btn red'
