@@ -1,0 +1,37 @@
+%h2
+  Editing Variable
+= turbo_frame_tag dom_id(@redcap_variable) do
+  .divTableRow
+    = form_with(model: @redcap_variable, url: redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable), method: 'patch', id: dom_id(@redcap_variable), class: 'redcap_variable_form') do |form|
+      %div{class: 'divTableCell redcap_variable_name'}
+        = @redcap_variable.name
+      %div{class: 'divTableCell redcap_variable_form_name'}
+        = @redcap_variable.form_name
+      %div{class: 'divTableCell redcap_variable_field_type'}
+        = @redcap_variable.field_type
+      %div{class: 'divTableCell redcap_variable_field_type_normalized'}
+        = @redcap_variable.field_type_normalized
+      %div{class: 'divTableCell redcap_variable_text_validation_type'}
+        = @redcap_variable.text_validation_type
+      %div{class: 'divTableCell redcap_variable_field_annotation'}
+        = @redcap_variable.field_annotation
+      %div{class: 'divTableCell redcap_variable_field_type_curated'}
+        = @redcap_variable.field_type_curated
+      %div{class: 'divTableCell redcap_variable_curation_status'}
+        / = form.text_field :curation_status
+        %p
+          %label
+            = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED, checked: @redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
+            %span
+              = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
+        %p
+          %label
+            = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED,  checked: @redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED
+            %span
+              = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED
+
+      %div{class: 'divTableCell edit'}
+        %button{ :type => 'submit', class: 'waves-effect waves-light btn' }
+          Submit
+      %div{class: 'divTableCell cancel'}
+        = link_to "Cancel", redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable)

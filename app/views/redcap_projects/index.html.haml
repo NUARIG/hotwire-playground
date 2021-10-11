@@ -1,10 +1,10 @@
 - content_for(:title) do
-  REDCap Projects
+  Projects
 .row
   #redcap_projects.col.s12
     .redcap_projects_header
       %h2
-        REDCap Projects
+        Projects
       = form_tag redcap_projects_url(), method: 'get', :id => 'search_redcap_projects_form'  do
         .row
           .search.input-field.col.s8
@@ -23,11 +23,17 @@
               = sortable 'name'
             .divTableHead
               = sortable 'api_token'
-            .divTableHead Export Table Name
-            .divTableHead Route To Observation
-            .divTableHead Insert Person
-            .divTableHead Complete Instrument
-            .divTableHead API Import
+            .divTableHead
+              Export Table Name
+            .divTableHead
+              Route To Observation
+            .divTableHead
+              Insert Person
+            .divTableHead
+              Complete Instrument
+            .divTableHead
+              API Import
+            .divTableHead
             .divTableHead
         .divTableBody
           - @redcap_projects.each do |redcap_project|

@@ -20,9 +20,9 @@ class RedcapVariablesController < ApplicationController
 
   def update
     respond_to do |format|
-      if @redcap_variable.update(redcap_project_params)
-        format.html { redirect_to @redcap_variable, notice: 'REDCap variable was successfully updated.' }
-        format.json { render :show, status: :ok, location: @redcap_variable }
+      if @redcap_variable.update(redcap_variable_params)
+        format.html { redirect_to redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable), notice: 'REDCap variable was successfully updated.' }
+        format.json { render :show, status: :ok, location: redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable) }
       else
         format.html { render :edit }
         format.json { render json: @redcap_variable.errors, status: :unprocessable_entity }
@@ -37,6 +37,7 @@ class RedcapVariablesController < ApplicationController
     end
 
     def load_redcap_variable
+      @redcap_project = Redcap2omop::RedcapProject.find(params[:redcap_project_id])
       @redcap_variable = Redcap2omop::RedcapVariable.find(params[:id])
     end
 
