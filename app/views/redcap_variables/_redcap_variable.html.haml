@@ -1,20 +1,39 @@
 = turbo_frame_tag dom_id(redcap_variable)  do
-  .divTableRow
-    %div{class: 'divTableCell redcap_variable_name'}
-      = redcap_variable.name
-    %div{class: 'divTableCell redcap_variable_form_name'}
-      = redcap_variable.form_name
-    %div{class: 'divTableCell redcap_variable_field_type'}
-      = redcap_variable.field_type
-    %div{class: 'divTableCell redcap_variable_field_type_normalized'}
-      = redcap_variable.field_type_normalized
-    %div{class: 'divTableCell redcap_variable_text_validation_type'}
-      = redcap_variable.text_validation_type
-    %div{class: 'divTableCell redcap_variable_field_annotation'}
-      = redcap_variable.field_annotation
-    %div{class: 'divTableCell redcap_variable_field_type_curated'}
-      = redcap_variable.field_type_curated
-    %div{class: 'divTableCell redcap_variable_curation_status'}
-      = redcap_variable.curation_status
-    %div{class: 'divTableCell edit'}
-      = link_to 'Edit', edit_redcap_project_redcap_data_dictionary_redcap_variable_url(redcap_project, redcap_variable)
+  %li.collection-item
+    .row
+      .col.s12.left-align
+        %h3
+          = "Name: #{redcap_variable.name}"
+    .row
+      .col.s6.m4.input-field
+        %label{ for: 'redcap_variable_form_name'}
+          Form Name
+        %input{ id: 'redcap_variable_form_name', disabled: 'disabled', value: redcap_variable.form_name, type: 'text' }
+      .col.s6.m4.input-field
+        %label{ for: 'redcap_variable_field_type'}
+          Field Type
+        %input{ id: 'redcap_variable_field_type', disabled: 'disabled', value: redcap_variable.field_type, type: 'text' }
+      .col.s6.m4.input-field
+        %label{ for: 'redcap_variable_field_type_normalized'}
+          Field Type Normalized
+        %input{ id: 'redcap_variable_field_type_normalized', disabled: 'disabled', value: redcap_variable.field_type_normalized, type: 'text' }
+    .row
+      .col.s6.m4.input-field
+        %label{ for: 'redcap_variable_field_type_curated'}
+          Field Type Curated
+        %input{ id: 'redcap_variable_field_type_curated', disabled: 'disabled', value: redcap_variable.field_type_curated, type: 'text' }
+      .col.s6.m4.input-field
+        %label{ for: 'redcap_variable_text_validation_type'}
+          Text Validation Type
+        %input{ id: 'redcap_variable_text_validation_type', disabled: 'disabled', value: redcap_variable.text_validation_type, type: 'text' }
+      .col.s6.m4.input-field
+        %label{ for: 'redcap_variable_field_annotation'}
+          Field Annotation
+        %input{ id: 'redcap_variable_field_annotation', disabled: 'disabled', value: redcap_variable.field_annotation, type: 'text' }
+    .row
+      .col.s6.m4.input-field
+        %label{ for: 'redcap_variable_curation_status'}
+          Curation Status
+        %input{ id: 'redcap_variable_curation_status', disabled: 'disabled', value: redcap_variable.curation_status, type: 'text' }
+      .col.s6.right-align
+        = link_to 'Edit', edit_redcap_project_redcap_data_dictionary_redcap_variable_url(redcap_project, redcap_variable), class: 'waves-effect waves-light btn'

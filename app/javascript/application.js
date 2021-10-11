@@ -10,6 +10,6 @@ document.addEventListener('turbo:load', (event) => {
   M.Tabs.init(tabs, {});
 })
 
-document.addEventListener('turbo:frame-load', (event) => {
+document.addEventListener('turbo:frame-render', (event) => {
   M.updateTextFields();
 })
