@@ -2,7 +2,7 @@
   Editing Variable
 = turbo_frame_tag dom_id(@redcap_variable)  do
   %li.collection-item
-    = form_with(model: @redcap_variable, url: redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable), method: 'patch', id: dom_id(@redcap_variable), class: 'redcap_variable_form') do |form|
+    = form_with(model: @redcap_variable, url: redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable), method: 'patch', html: { id: dom_id(@redcap_variable), class: 'redcap_variable_form', data: { controller: 'redcap-variable' } }) do |form|
       .row
         .col.s12.left-align
           %h3
@@ -39,15 +39,40 @@
             Curation Status
             %p
               %label
-                = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED, checked: @redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
+                = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED, checked: (@redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED), data: { action: 'change->redcap-variable#changeCurationStatus' }
                 %span
                   = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
             %p
               %label
-                = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED,  checked: @redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED
+                = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED,  checked: (@redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED), data: { action: 'change->redcap-variable#changeCurationStatus' }
                 %span
                   = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED
-        .col.s6.right-align
+        .col.s6.m4.input-field
+          .redcap_variable_map_form{ class: "#{hide_redcap_variable_map(@redcap_variable.curation_status)}" }
+            = form.fields_for :redcap_variable_map  do |redcap_variable_map_form|
+              = redcap_variable_map_form.hidden_field :id
+              = redcap_variable_map_form.hidden_field :_destroy
+              %legend.left-align
+                Map Type
+                %p.left-align
+                  %label
+                    = redcap_variable_map_form.radio_button :map_type, Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN, checked: redcap_variable_map_form.object.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN
+                    %span
+                      = Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN
+                %p.left-align
+                  %label
+                    = redcap_variable_map_form.radio_button :map_type, Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT, checked: redcap_variable_map_form.object.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT
+                    %span
+                      = Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT
+                %p.left-align
+                  %label
+                    = redcap_variable_map_form.radio_button :map_type, Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT_CHOICE, checked: redcap_variable_map_form.object.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT_CHOICE
+                    %span
+                      = Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT_CHOICE
+                - if validation_errors?(redcap_variable_map_form.object, :map_type)
+                  %p.error= format_validation_errors(redcap_variable_map_form.object, :map_type)
+      .row
+        .col.s12.right-align
           %button{ :type => 'submit', class: 'waves-effect waves-light btn' }
             Submit
           = link_to "Cancel", redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable), class: 'waves-effect waves-light btn red'

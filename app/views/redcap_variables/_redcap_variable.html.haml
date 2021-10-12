@@ -35,5 +35,11 @@
         %label{ for: 'redcap_variable_curation_status'}
           Curation Status
         %input{ id: 'redcap_variable_curation_status', disabled: 'disabled', value: redcap_variable.curation_status, type: 'text' }
-      .col.s6.right-align
+      .col.s6.m4.input-field
+        - if redcap_variable.redcap_variable_map && redcap_variable.curation_status != Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
+          %label{ for: 'redcap_variable_map_map_type'}
+            Map Type
+          %input{ id: 'redcap_variable_map_map_type', disabled: 'disabled', value: redcap_variable.redcap_variable_map.map_type, type: 'text' }
+    .row
+      .col.s12.right-align
         = link_to 'Edit', edit_redcap_project_redcap_data_dictionary_redcap_variable_url(redcap_project, redcap_variable), class: 'waves-effect waves-light btn'

@@ -48,8 +48,16 @@ class RedcapVariablesController < ApplicationController
       params.require(:redcap_variable).permit(:curation_status)
     end
 
+    def redcap_variable_params
+      if params[:redcap_variable][:curation_status] == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED && params[:redcap_variable][:redcap_variable_map_attributes][:id].blank?
+        params[:redcap_variable].delete(:redcap_variable_map_attributes)
+      end
+
+      params.require(:redcap_variable).permit(:curation_status, redcap_variable_map_attributes: [:id, :map_type, :_destroy])
+    end
+
     def sort_column
-      ['name', 'api_token'].include?(params[:sort]) ? params[:sort] : 'name'
+      ['name', 'form_name'].include?(params[:sort]) ? params[:sort] : 'name'
     end
 
     def sort_direction
