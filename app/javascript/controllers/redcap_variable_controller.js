@@ -2,6 +2,42 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   connect() {
+    var conceptsUrl
+    conceptsUrl = $('#concepts_url').attr('href');
+    $('.concept-select2').select2({
+      ajax: {
+        url: conceptsUrl,
+        dataType: 'json',
+        delay: 250,
+        data: function(params) {
+          return {
+            q: params.term,
+            page: params.page
+          };
+        },
+        processResults: function(data, params) {
+          var results;
+          params.page = params.page || 1;
+          results = $.map(data.concepts, function(obj) {
+            obj.id = obj.concept_id;
+            obj.text = obj.concept_name;
+            return obj;
+          });
+          return {
+            results: results,
+            pagination: {
+              more: params.page * 10 < data.total
+            }
+          };
+        },
+        cache: true
+      },
+      escapeMarkup: function(markup) {
+        return markup;
+      },
+      minimumInputLength: 2
+    });
+
   }
 
   changeCurationStatus (event) {

@@ -22,3 +22,10 @@ gem 'turbo-rails'
 pg_dump redcap2omop_development -h localhost -U redcap2omop_development > redcap2omop_development.sql
 redcap2omop_development
 psql -U hotwire_playground_development  -d hotwire_playground_development -h localhost -f redcap2omop_development.sql
+
+
+./bin/importmap pin @rails/request.js
+./bin/importmap pin select2
+
+q = 'glioblastoma idh'
+Redcap2omop::Concept.search(q)

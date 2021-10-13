@@ -16,6 +16,7 @@ class RedcapVariablesController < ApplicationController
     if @redcap_variable.redcap_variable_map.blank?
       @redcap_variable.build_redcap_variable_map
     end
+    @concepts = [@redcap_variable.redcap_variable_map.concept]
   end
 
   def show
@@ -53,7 +54,7 @@ class RedcapVariablesController < ApplicationController
         params[:redcap_variable].delete(:redcap_variable_map_attributes)
       end
 
-      params.require(:redcap_variable).permit(:curation_status, redcap_variable_map_attributes: [:id, :map_type, :_destroy])
+      params.require(:redcap_variable).permit(:curation_status, redcap_variable_map_attributes: [:id, :map_type, :concept_id, :omop_column_id, :_destroy])
     end
 
     def sort_column

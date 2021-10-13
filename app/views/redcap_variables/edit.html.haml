@@ -47,31 +47,35 @@
                 = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED,  checked: (@redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED), data: { action: 'change->redcap-variable#changeCurationStatus' }
                 %span
                   = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED
-        .col.s6.m4.input-field
+        .col.s6.m8
           .redcap_variable_map_form{ class: "#{hide_redcap_variable_map(@redcap_variable.curation_status)}" }
             = form.fields_for :redcap_variable_map  do |redcap_variable_map_form|
               = redcap_variable_map_form.hidden_field :id
               = redcap_variable_map_form.hidden_field :_destroy
-              %legend.left-align
-                Map Type
-                %p.left-align
-                  %label
-                    = redcap_variable_map_form.radio_button :map_type, Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN, checked: redcap_variable_map_form.object.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN
-                    %span
-                      = Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN
-                %p.left-align
-                  %label
-                    = redcap_variable_map_form.radio_button :map_type, Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT, checked: redcap_variable_map_form.object.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT
-                    %span
-                      = Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT
-                %p.left-align
-                  %label
-                    = redcap_variable_map_form.radio_button :map_type, Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT_CHOICE, checked: redcap_variable_map_form.object.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT_CHOICE
-                    %span
-                      = Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT_CHOICE
-                - if validation_errors?(redcap_variable_map_form.object, :map_type)
-                  %p.error= format_validation_errors(redcap_variable_map_form.object, :map_type)
-      .row
+              .col.s6.m4.input-field
+                %legend.left-align
+                  Map Type
+                  %p.left-align
+                    %label
+                      = redcap_variable_map_form.radio_button :map_type, Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN, checked: redcap_variable_map_form.object.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN
+                      %span
+                        = Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN
+                  %p.left-align
+                    %label
+                      = redcap_variable_map_form.radio_button :map_type, Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT, checked: redcap_variable_map_form.object.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT
+                      %span
+                        = Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT
+                  %p.left-align
+                    %label
+                      = redcap_variable_map_form.radio_button :map_type, Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT_CHOICE, checked: redcap_variable_map_form.object.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT_CHOICE
+                      %span
+                        = Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT_CHOICE
+                  - if validation_errors?(redcap_variable_map_form.object, :map_type)
+                    %p.error= format_validation_errors(redcap_variable_map_form.object, :map_type)
+              .col.s6.m4.input-field
+                = link_to '', concepts_url(), class: 'hide', id: 'concepts_url'
+                = label_tag :concept_id, 'Concept'
+                = redcap_variable_map_form.select :concept_id, options_for_select(@concepts.map { |concept| [concept.concept_name, concept.concept_id] }, redcap_variable_map_form.object.concept_id), { include_blank: true }, class: 'concept-select2', data: { placeholder: 'Search concept'}
         .col.s12.right-align
           %button{ :type => 'submit', class: 'waves-effect waves-light btn' }
             Submit
