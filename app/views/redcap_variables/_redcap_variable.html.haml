@@ -35,11 +35,12 @@
         %label{ for: 'redcap_variable_curation_status'}
           Curation Status
         %input{ id: 'redcap_variable_curation_status', disabled: 'disabled', value: redcap_variable.curation_status, type: 'text' }
-      - if redcap_variable.redcap_variable_map && redcap_variable.curation_status != Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
+      - unless hide_redcap_variable_map(redcap_variable.curation_status) == 'hide'
         .col.s6.m4.input-field
           %label{ for: 'redcap_variable_map_map_type'}
             Map Type
           %input{ id: 'redcap_variable_map_map_type', disabled: 'disabled', value: redcap_variable.redcap_variable_map.map_type, type: 'text' }
+      - unless hide_hide_redcap_variable_map_concept_id(redcap_variable) == 'hide'
         .col.s6.m4.input-field
           - if redcap_variable.redcap_variable_map.concept_id
             %label{ for: 'redcap_variable_map_concept_id'}

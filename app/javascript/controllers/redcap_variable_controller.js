@@ -62,4 +62,23 @@ export default class extends Controller {
         break;
     }
   }
+
+  changeMapType (event) {
+    var controller, redcapVariableConceptId;
+    controller = this
+
+    redcapVariableConceptId = event.target.closest('.redcap_variable_form').querySelector('.concept_id')
+
+    switch(event.target.value) {
+      case 'OMOP column':
+        redcapVariableConceptId.classList.add('hide')
+        break;
+      case 'OMOP concept':
+        redcapVariableConceptId.classList.remove('hide')
+        break;
+      case 'OMOP concept choice':
+        redcapVariableConceptId.classList.add('hide')
+        break;
+    }
+  }
 }

@@ -6,4 +6,16 @@ module RedcapVariablesHelper
       ''
     end
   end
+
+  def hide_hide_redcap_variable_map_concept_id(redcap_variable)
+    if redcap_variable.redcap_variable_map
+      if redcap_variable.redcap_variable_map.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT
+        ''
+      else
+        'hide'
+      end
+    else
+      'hide'
+    end
+  end
 end
