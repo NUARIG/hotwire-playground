@@ -78,6 +78,8 @@
                   %span
                     Concept
                   = redcap_variable_map_form.select :concept_id, options_for_select(@concepts.map { |concept| [concept.concept_name, concept.concept_id] }, redcap_variable_map_form.object.concept_id), { include_blank: true }, class: 'concept-select2', data: { placeholder: 'Search concept'}
+                  - if validation_errors?(redcap_variable_map_form.object, :concept_id)
+                    %p.error= format_validation_errors(redcap_variable_map_form.object, :concept_id)
         .col.s12.right-align
           %button{ :type => 'submit', class: 'waves-effect waves-light btn' }
             Submit

@@ -23,6 +23,11 @@ class RedcapVariablesController < ApplicationController
   end
 
   def update
+    if @redcap_variable.redcap_variable_map
+      @concepts = [@redcap_variable.redcap_variable_map.concept].compact
+    else
+      @concepts = []
+    end
     respond_to do |format|
       if @redcap_variable.update(redcap_variable_params)
         format.html { redirect_to redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable), notice: 'REDCap variable was successfully updated.' }

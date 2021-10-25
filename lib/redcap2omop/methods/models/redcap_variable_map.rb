@@ -13,7 +13,12 @@ module Redcap2omop
           base.send :belongs_to, :omop_column, optional: true
           base.send :belongs_to, :concept, optional: true
 
+          # Validations
           base.send :validates_presence_of, :map_type
+          base.send :validates_presence_of, :concept_id, if: -> { map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT }
+
+          # Hooks
+          base.send :before_save, :clean
 
           base.instance_eval do
             # Hooks
@@ -27,6 +32,19 @@ module Redcap2omop
         end
 
         module InstanceMethods
+
+          private
+            def clean
+              case map_type
+              when Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN
+                self.concept_id = nil
+              when Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT
+                self.omop_column_id = nil
+              when Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT_CHOICE
+                self.concept_id = nil
+                self.omop_column_id = nil
+              end
+            end
         end
 
         module ClassMethods
