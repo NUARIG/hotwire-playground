@@ -57,11 +57,6 @@
                   Map Type
                   %p.left-align
                     %label
-                      = redcap_variable_map_form.radio_button :map_type, Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN, checked: redcap_variable_map_form.object.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN, data: { action: 'change->redcap-variable#changeMapType' }
-                      %span
-                        = Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_COLUMN
-                  %p.left-align
-                    %label
                       = redcap_variable_map_form.radio_button :map_type, Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT, checked: redcap_variable_map_form.object.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT, data: { action: 'change->redcap-variable#changeMapType' }
                       %span
                         = Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT
