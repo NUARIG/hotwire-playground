@@ -2,6 +2,8 @@ module Redcap2omop
   module Methods
     module Models
       module Concept
+
+
         CONCEPT_ID_NO_MATCHING_CONCEPT = 0
 
         CONCEPT_CODE_OMOP_GENERATED = 'OMOP generated'
@@ -90,15 +92,19 @@ module Redcap2omop
             all_concepts = []
             search_tokens = search_token.split(' ')
             st = search_tokens.shift
-            all_concepts = Redcap2omop::Concept.standard.valid.where('lower(concept_name) like ?', "%#{st.downcase}%")
+            all_concepts = Redcap2omop::Concept.standard.valid.mappable_domains.where('lower(concept_name) like ?', "%#{st.downcase}%")
             if search_tokens.any?
               search_tokens.each do |st|
-                concepts = Redcap2omop::Concept.standard.valid.where('lower(concept_name) like ?', "%#{st.downcase}%")
+                concepts = Redcap2omop::Concept.standard.valid.mappable_domains.where('lower(concept_name) like ?', "%#{st.downcase}%")
                 all_concepts = concepts & all_concepts
               end
             end
 
             all_concepts = all_concepts.sort_by { |concept| concept.concept_name }
+          end
+
+          def mappable_domains
+            where(domain_id: Redcap2omop::DataServices::RedcapToOmop::MAPPABLE_DOMAINS)
           end
 
           def standard

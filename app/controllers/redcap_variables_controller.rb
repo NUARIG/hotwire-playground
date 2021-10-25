@@ -16,7 +16,7 @@ class RedcapVariablesController < ApplicationController
     if @redcap_variable.redcap_variable_map.blank?
       @redcap_variable.build_redcap_variable_map
     end
-    @concepts = [@redcap_variable.redcap_variable_map.concept]
+    @concepts = [@redcap_variable.redcap_variable_map.concept].compact
   end
 
   def show
