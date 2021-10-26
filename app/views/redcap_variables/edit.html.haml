@@ -120,10 +120,10 @@
                     %th.redcap_variable_choice_curation_status{ width: 200 }
                       Curation Status
                 %tbody
-                  = form.fields_for :redcap_variable_choices  do |redcap_variable_choice_form|
+                  = form.fields_for :redcap_variable_choices, @redcap_variable.redcap_variable_choices.sort_by(&:id) do |redcap_variable_choice_form|
                     = redcap_variable_choice_form.hidden_field :id
                     = redcap_variable_choice_form.hidden_field :_destroy
-                    = content_tag(:tr, class: 'redcap_variable_choice') do
+                    = content_tag(:tr, class: 'redcap_variable_choice', id: "redcap_variable_choice_id{redcap_variable_choice_form.object.id}") do
                       %td.redcap_variable_choice_choice_code_raw
                         = redcap_variable_choice_form.object.choice_code_raw
                       %td.redcap_variable_choice_choice_description
