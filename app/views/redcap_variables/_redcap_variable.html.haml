@@ -35,7 +35,7 @@
         %label{ for: 'redcap_variable_curation_status'}
           Curation Status
         %input{ id: 'redcap_variable_curation_status', disabled: 'disabled', value: redcap_variable.curation_status, type: 'text' }
-      - unless hide_redcap_variable_map(redcap_variable.curation_status) == 'hide'
+      - unless hide_redcap_variable_map(redcap_variable) == 'hide'
         .col.s6.m4.input-field
           %label{ for: 'redcap_variable_map_map_type'}
             Map Type
@@ -46,6 +46,36 @@
             %label{ for: 'redcap_variable_map_concept_id'}
               Concept
             %input{ id: 'redcap_variable_map_concept_id', disabled: 'disabled', value: redcap_variable.redcap_variable_map.concept.concept_name, type: 'text' }
+    - if redcap_variable.choice? && redcap_variable.curation_status != Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
+      .redcap_variable_choices
+        .row
+          .col.s12.left-align
+            %h4
+              Choices
+        .row
+          .col.s12.left-align
+            %table
+              %thead
+                %tr
+                  %th.redcap_variable_choice_choice_code_raw{ width: 200 }
+                    Choice Code Raw
+                  %th.redcap_variable_choice_choice_description{ width: 200 }
+                    Choice Description
+                  %th.redcap_variable_choice_vocabulary_id_raw{ width: 200 }
+                    Vocabulary ID Raw
+                  %th.redcap_variable_choice_curation_status{ width: 200 }
+                    Curation Status
+              %tbody
+                - redcap_variable.redcap_variable_choices.each  do |redcap_variable_choice|
+                  = content_tag(:tr, class: 'redcap_variable_choice') do
+                    %td.redcap_variable_choice_choice_code_raw
+                      = redcap_variable_choice.choice_code_raw
+                    %td.redcap_variable_choice_choice_description
+                      = redcap_variable_choice.choice_description
+                    %td.redcap_variable_choice_redcap_variable_choice_vocabulary_id_raw
+                      = redcap_variable_choice.vocabulary_id_raw
+                    %td.redcap_variable_choice_curation_status
+                      = redcap_variable_choice.curation_status
     .row
       .col.s12.right-align
         = link_to 'Edit', edit_redcap_project_redcap_data_dictionary_redcap_variable_url(redcap_project, redcap_variable), class: 'waves-effect waves-light btn'

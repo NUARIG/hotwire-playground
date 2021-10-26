@@ -1,6 +1,14 @@
 module RedcapVariablesHelper
-  def hide_redcap_variable_map(curation_status)
-    if curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
+  def hide_redcap_variable_map(redcap_variable)
+    if redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
+      'hide'
+    else
+      ''
+    end
+  end
+
+  def hide_redcap_variable_choices(redcap_variable)
+    if redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
       'hide'
     else
       ''

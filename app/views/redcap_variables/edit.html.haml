@@ -37,18 +37,43 @@
         .col.s6.m4.input-field
           %legend
             Curation Status
-            %p
+            %p.left-align
+              %label
+                = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED, checked: (@redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED), disabled: true, data: { action: 'change->redcap-variable#changeCurationStatus' }
+                %span
+                  = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED
+            %p.left-align
+              %label
+                = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED_NEW_VARIABLE, checked: (@redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED_NEW_VARIABLE), disabled: true, data: { action: 'change->redcap-variable#changeCurationStatus' }
+                %span
+                  = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED_NEW_VARIABLE
+            %p.left-align
+              %label
+                = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED_UPDATED_VARIABLE_TYPE, checked: (@redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED_UPDATED_VARIABLE_TYPE), disabled: true, data: { action: 'change->redcap-variable#changeCurationStatus' }
+                %span
+                  = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED_UPDATED_VARIABLE_TYPE
+            %p.left-align
+              %label
+                = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED_UPDATED_VARIABLE_LABEL, checked: (@redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED_UPDATED_VARIABLE_LABEL), disabled: true, data: { action: 'change->redcap-variable#changeCurationStatus' }
+                %span
+                  = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED_UPDATED_VARIABLE_LABEL
+            %p.left-align
+              %label
+                = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED_UPDATED_VARIABLE_CHOICES, checked: (@redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED_UPDATED_VARIABLE_CHOICES), disabled: true, data: { action: 'change->redcap-variable#changeCurationStatus' }
+                %span
+                  = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_UNDETERMINED_UPDATED_VARIABLE_CHOICES
+            %p.left-align
               %label
                 = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED, checked: (@redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED), data: { action: 'change->redcap-variable#changeCurationStatus' }
                 %span
                   = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
-            %p
+            %p.left-align
               %label
                 = form.radio_button :curation_status, Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED,  checked: (@redcap_variable.curation_status == Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED), data: { action: 'change->redcap-variable#changeCurationStatus' }
                 %span
                   = Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_MAPPED
         .col.s6.m8
-          .redcap_variable_map_form{ class: "#{hide_redcap_variable_map(@redcap_variable.curation_status)}" }
+          .redcap_variable_map_form{ class: "#{hide_redcap_variable_map(@redcap_variable)}" }
             = form.fields_for :redcap_variable_map  do |redcap_variable_map_form|
               = redcap_variable_map_form.hidden_field :id
               = redcap_variable_map_form.hidden_field :_destroy
@@ -75,6 +100,63 @@
                   = redcap_variable_map_form.select :concept_id, options_for_select(@concepts.map { |concept| [concept.concept_name, concept.concept_id] }, redcap_variable_map_form.object.concept_id), { include_blank: true }, class: 'concept-select2', data: { placeholder: 'Search concept'}
                   - if validation_errors?(redcap_variable_map_form.object, :concept_id)
                     %p.error= format_validation_errors(redcap_variable_map_form.object, :concept_id)
+      - if @redcap_variable.choice?
+        .redcap_variable_choices{ class: "#{hide_redcap_variable_choices(@redcap_variable)}" }
+          .row
+            .col.s12.left-align
+              %h4
+                Choices
+          .row
+            .col.s12
+              %table
+                %thead
+                  %tr
+                    %th.redcap_variable_choice_choice_code_raw{ width: 200 }
+                      Choice Code Raw
+                    %th.redcap_variable_choice_choice_description{ width: 200 }
+                      Choice Description
+                    %th.redcap_variable_choice_vocabulary_id_raw{ width: 200 }
+                      Vocabulary ID Raw
+                    %th.redcap_variable_choice_curation_status{ width: 200 }
+                      Curation Status
+                %tbody
+                  = form.fields_for :redcap_variable_choices  do |redcap_variable_choice_form|
+                    = redcap_variable_choice_form.hidden_field :id
+                    = redcap_variable_choice_form.hidden_field :_destroy
+                    = content_tag(:tr, class: 'redcap_variable_choice') do
+                      %td.redcap_variable_choice_choice_code_raw
+                        = redcap_variable_choice_form.object.choice_code_raw
+                      %td.redcap_variable_choice_choice_description
+                        = redcap_variable_choice_form.object.choice_description
+                      %td.redcap_variable_choice_redcap_variable_choice_vocabulary_id_raw
+                        = redcap_variable_choice_form.object.vocabulary_id_raw
+                      %td.redcap_variable_choice_curation_status
+                        %p.left-align
+                          %label
+                            = redcap_variable_choice_form.radio_button :curation_status, Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED, checked: (redcap_variable_choice_form.object.curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED), disabled: true, data: { action: 'change->redcap-variable#changeCurationStatus' }
+                            %span
+                              = Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED
+                        %p.left-align
+                          %label
+                            = redcap_variable_choice_form.radio_button :curation_status, Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED_NEW_CHOICE, checked: (redcap_variable_choice_form.object.curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED_NEW_CHOICE), disabled: true, data: { action: 'change->redcap-variable#changeCurationStatus' }
+                            %span
+                              = Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED_NEW_CHOICE
+                        %p.left-align
+                          %label
+                            = redcap_variable_choice_form.radio_button :curation_status, Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED_UPDATED_DESCRIPTION, checked: (redcap_variable_choice_form.object.curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED_UPDATED_DESCRIPTION), disabled: true, data: { action: 'change->redcap-variable#changeCurationStatus' }
+                            %span
+                              = Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED_UPDATED_DESCRIPTION
+                        %p.left-align
+                          %label
+                            = redcap_variable_choice_form.radio_button :curation_status, Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_SKIPPED, checked: (redcap_variable_choice_form.object.curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_SKIPPED)
+                            %span
+                              = Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_SKIPPED
+                        %p.left-align
+                          %label
+                            = redcap_variable_choice_form.radio_button :curation_status, Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED,  checked: (redcap_variable_choice_form.object.curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED)
+                            %span
+                              = Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED
+      .row
         .col.s12.right-align
           %button{ :type => 'submit', class: 'waves-effect waves-light btn' }
             Submit

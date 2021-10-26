@@ -41,23 +41,26 @@ export default class extends Controller {
   }
 
   changeCurationStatus (event) {
-    var controller, redcapVariableForm, redcapVariableMapForm, destroyRedcapVariableMap, idRedcapVariableMap;
+    var controller, redcapVariableForm, redcapVariableMapForm, destroyRedcapVariableMap, idRedcapVariableMap, redcapVariableChoices
     controller = this
 
     redcapVariableForm = event.target.closest('.redcap_variable_form')
     redcapVariableMapForm = redcapVariableForm.querySelector('.redcap_variable_map_form')
     destroyRedcapVariableMap = redcapVariableForm.querySelector('#redcap_variable_redcap_variable_map_attributes__destroy')
     idRedcapVariableMap = redcapVariableForm.querySelector('#redcap_variable_redcap_variable_map_attributes_id')
+    redcapVariableChoices = redcapVariableForm.querySelector('.redcap_variable_choices')
 
     switch(event.target.value) {
       case 'skipped':
         redcapVariableMapForm.classList.toggle('hide')
+        redcapVariableChoices.classList.add('hide')
         if(idRedcapVariableMap != null) {
           destroyRedcapVariableMap.value = 1
         }
         break;
       case 'mapped':
         redcapVariableMapForm.classList.toggle('hide')
+        redcapVariableChoices.classList.remove('hide')
         destroyRedcapVariableMap.value = null
         break;
     }

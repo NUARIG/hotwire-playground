@@ -18,11 +18,11 @@ module Redcap2omop
           # Associations
           base.send :belongs_to, :redcap_data_dictionary
           base.send :has_many, :redcap_variable_choices
+          base.send :accepts_nested_attributes_for, :redcap_variable_choices
           base.send :has_one, :redcap_variable_map
           base.send :accepts_nested_attributes_for, :redcap_variable_map, allow_destroy: true
           base.send :has_many, :redcap_variable_child_maps, as: :parentable
           base.send :has_many, :redcap_source_links, as: :redcap_source
-
           # Hooks
           base.send :after_initialize, :set_defaults
           base.send :before_validation, :normalize_field_type, :set_variable_choices
