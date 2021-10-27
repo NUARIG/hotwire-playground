@@ -14,12 +14,11 @@ module Redcap2omop
 
           # Associations
           base.send :belongs_to, :redcap_variable
-          base.send :has_one, :redcap_variable_choice_map
+          base.send :has_one, :redcap_variable_choice_map, autosave: true
           base.send :has_many, :redcap_variable_child_maps, as: :parentable
 
           # Hooks
           base.send :after_initialize, :set_defaults
-          base.send :before_save, :set_map_type
 
           base.send :attribute, :concept_id
 
@@ -55,7 +54,6 @@ module Redcap2omop
           end
 
           def concept_id=(concept_id)
-            puts 'what the hell?'
             if self.redcap_variable_choice_map.blank?
               self.build_redcap_variable_choice_map
             end
@@ -63,30 +61,10 @@ module Redcap2omop
             self.redcap_variable_choice_map.concept_id = concept_id
           end
 
-          # def map_type
-          #   if redcap_variable_choice_map
-          #     redcap_variable_choice_map.map_type
-          #   end
-          # end
-          #
-          # def map_type=(map_type)
-          #   if self.redcap_variable_choice_map.blank?
-          #     self.build_redcap_variable_choice_map
-          #   end
-          #   self.redcap_variable_choice_map.map_type = map_type
-          # end
-
           private
             def set_defaults
               if self.new_record?
                 self.curation_status = Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED
-              end
-            end
-
-            def set_map_type
-              if self.curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED && self.redcap_variable_choice_map.blank?
-                self.build_redcap_variable_choice_map
-                self.redcap_variable_choice_map.map_type = Redcap2omop::RedcapVariableChoiceMap::REDCAP_VARIABLE_CHOICE_MAP_MAP_TYPE_OMOP_CONCEPT
               end
             end
         end

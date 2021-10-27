@@ -84,4 +84,22 @@ export default class extends Controller {
         break;
     }
   }
+
+  changeRedcapVariableChoiceCurationStatus (event) {
+    var controller, redcapVariableChoiceConceptId, redcapVariableChoiceConceptIdSelect
+    controller = this
+
+    redcapVariableChoiceConceptId = event.target.closest('.redcap_variable_choice').querySelector('.redcap_variable_choice_concept_id')
+    redcapVariableChoiceConceptIdSelect = event.target.closest('.redcap_variable_choice').querySelector('.redcap_variable_choice_concept_id select')
+
+    switch(event.target.value) {
+      case 'skipped':
+        redcapVariableChoiceConceptId.classList.add('hide')
+        redcapVariableChoiceConceptIdSelect.value = ''
+        break
+      case 'mapped':
+        redcapVariableChoiceConceptId.classList.remove('hide')
+        break
+    }
+  }
 }

@@ -28,12 +28,8 @@ module RedcapVariablesHelper
   end
 
   def hide_redcap_variable_choice_map_concept_id(redcap_variable_choice)
-    if redcap_variable_choice.redcap_variable_choice_map
-      if redcap_variable_choice.redcap_variable_choice_map.map_type == Redcap2omop::RedcapVariableChoiceMap::REDCAP_VARIABLE_CHOICE_MAP_MAP_TYPE_OMOP_CONCEPT
-        ''
-      else
-        'hide'
-      end
+    if redcap_variable_choice.curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED
+      ''
     else
       'hide'
     end

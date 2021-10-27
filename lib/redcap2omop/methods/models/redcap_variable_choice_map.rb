@@ -11,11 +11,20 @@ module Redcap2omop
           base.send :belongs_to, :omop_column, optional: true
           base.send :belongs_to, :concept, optional: true
 
+          # Hooks
+          base.send :after_initialize, :set_defaults
+
           base.send :include, InstanceMethods
           base.extend(ClassMethods)
         end
 
         module InstanceMethods
+          private
+            def set_defaults
+              if self.new_record?
+                self.map_type = Redcap2omop::RedcapVariableChoiceMap::REDCAP_VARIABLE_CHOICE_MAP_MAP_TYPE_OMOP_CONCEPT
+              end
+            end
         end
 
         module ClassMethods
