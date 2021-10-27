@@ -39,7 +39,8 @@
         .col.s6.m4.input-field
           %label{ for: 'redcap_variable_map_map_type'}
             Map Type
-          %input{ id: 'redcap_variable_map_map_type', disabled: 'disabled', value: redcap_variable.redcap_variable_map.map_type, type: 'text' }
+          - if redcap_variable.redcap_variable_map
+            %input{ id: 'redcap_variable_map_map_type', disabled: 'disabled', value: redcap_variable.redcap_variable_map.map_type, type: 'text' }
       - unless hide_redcap_variable_map_concept_id(redcap_variable) == 'hide'
         .col.s6.m4.input-field
           - if redcap_variable.redcap_variable_map.concept_id
