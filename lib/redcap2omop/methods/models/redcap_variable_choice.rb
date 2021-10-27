@@ -19,6 +19,9 @@ module Redcap2omop
 
           # Hooks
           base.send :after_initialize, :set_defaults
+          base.send :before_save, :set_map_type
+
+          base.send :attribute, :concept_id
 
           base.send :include, InstanceMethods
           base.extend(ClassMethods)
@@ -45,12 +48,47 @@ module Redcap2omop
             normalized = self.choice_code_raw.downcase.gsub('-','_')
           end
 
-          private
-          def set_defaults
-            if self.new_record?
-              self.curation_status = Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED
+          def concept_id
+            if redcap_variable_choice_map
+              redcap_variable_choice_map.concept_id
             end
           end
+
+          def concept_id=(concept_id)
+            puts 'what the hell?'
+            if self.redcap_variable_choice_map.blank?
+              self.build_redcap_variable_choice_map
+            end
+            attribute_will_change!(:concept_id)
+            self.redcap_variable_choice_map.concept_id = concept_id
+          end
+
+          # def map_type
+          #   if redcap_variable_choice_map
+          #     redcap_variable_choice_map.map_type
+          #   end
+          # end
+          #
+          # def map_type=(map_type)
+          #   if self.redcap_variable_choice_map.blank?
+          #     self.build_redcap_variable_choice_map
+          #   end
+          #   self.redcap_variable_choice_map.map_type = map_type
+          # end
+
+          private
+            def set_defaults
+              if self.new_record?
+                self.curation_status = Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED
+              end
+            end
+
+            def set_map_type
+              if self.curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED && self.redcap_variable_choice_map.blank?
+                self.build_redcap_variable_choice_map
+                self.redcap_variable_choice_map.map_type = Redcap2omop::RedcapVariableChoiceMap::REDCAP_VARIABLE_CHOICE_MAP_MAP_TYPE_OMOP_CONCEPT
+              end
+            end
         end
 
         module ClassMethods
