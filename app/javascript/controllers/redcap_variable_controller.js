@@ -35,7 +35,7 @@ export default class extends Controller {
       escapeMarkup: function(markup) {
         return markup;
       },
-      minimumInputLength: 2
+      minimumInputLength: 4
     });
 
   }
