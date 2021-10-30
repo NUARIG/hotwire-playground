@@ -59,7 +59,7 @@ class RedcapVariablesController < ApplicationController
         params[:redcap_variable].delete(:redcap_variable_map_attributes)
       end
 
-      params.require(:redcap_variable).permit(:curation_status, redcap_variable_map_attributes: [:id, :map_type, :concept_id, :omop_column_id, :_destroy], redcap_variable_choices_attributes: [:id, :curation_status, :concept_id])
+      params.require(:redcap_variable).permit(:curation_status, redcap_variable_map_attributes: [:id, :map_type, :concept_id, :omop_column_id, :_destroy], redcap_variable_choices_attributes: [:id, :curation_status, :concept_id], redcap_variable_child_maps_attributes: [:id, :map_type, :omop_column_id, :redcap_variable_id, :concept_id, :redcap_derived_date_id, :_destroy])
     end
 
     def sort_column

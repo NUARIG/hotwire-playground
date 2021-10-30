@@ -1,0 +1,30 @@
+= content_tag(:tr, class: 'nested-fields redcap_variable_child_map', id: "redcap_variable_child_map_id_#{form.object.id}") do
+  %td.redcap_variable_child_map_map_type.col.input-field{ width: 200 }
+    = form.hidden_field :_destroy
+    %p.left-align
+      %label
+        = form.radio_button :map_type, Redcap2omop::RedcapVariableChildMap::REDCAP_VARIABLE_CHILD_MAP_MAP_TYPE_REDCAP_VARIABLE, checked: form.object.map_type == Redcap2omop::RedcapVariableChildMap::REDCAP_VARIABLE_CHILD_MAP_MAP_TYPE_REDCAP_VARIABLE, data: { action: 'change->redcap-variable#changeRedcapVariableChildMapType' }
+        %span
+          = Redcap2omop::RedcapVariableChildMap::REDCAP_VARIABLE_CHILD_MAP_MAP_TYPE_REDCAP_VARIABLE
+    %p.left-align
+      %label
+        = form.radio_button :map_type, Redcap2omop::RedcapVariableChildMap::REDCAP_VARIABLE_CHILD_MAP_MAP_TYPE_OMOP_CONCEPT, checked: form.object.map_type == Redcap2omop::RedcapVariableChildMap::REDCAP_VARIABLE_CHILD_MAP_MAP_TYPE_OMOP_CONCEPT, data: { action: 'change->redcap-variable#changeRedcapVariableChildMapType' }
+        %span
+          = Redcap2omop::RedcapVariableChildMap::REDCAP_VARIABLE_CHILD_MAP_MAP_TYPE_OMOP_CONCEPT
+    %p.left-align
+      %label
+        = form.radio_button :map_type, Redcap2omop::RedcapVariableChildMap::REDCAP_VARIABLE_CHILD_MAP_MAP_TYPE_REDCAP_DERIVED_DATE, checked: form.object.map_type == Redcap2omop::RedcapVariableChildMap::REDCAP_VARIABLE_CHILD_MAP_MAP_TYPE_REDCAP_DERIVED_DATE, data: { action: 'change->redcap-variable#changeRedcapVariableChildMapType' }
+        %span
+          = Redcap2omop::RedcapVariableChildMap::REDCAP_VARIABLE_CHILD_MAP_MAP_TYPE_REDCAP_DERIVED_DATE
+    - if validation_errors?(form.object, :map_type)
+      %p.error= format_validation_errors(form.object, :map_type)
+  %td.redcap_variable_child_map_omop_column_id.input-field{ width: 200 }
+    = form.text_field :omop_column_id
+  %td.redcap_variable_child_map_redcap_variable_id{ width: 200 }
+    = form.text_field :redcap_variable_id
+  %td.redcap_variable_child_map_redcap_concept_id{ width: 200 }
+    = form.text_field :concept_id
+  %td.redcap_variable_child_map_redcap_derived_date_id{ width: 200 }
+    = form.text_field :redcap_derived_date_id
+  %td{ width: 200 }
+    = link_to "Remove", "#", class: 'waves-effect waves-light btn red', data: { action: "click->nested-form#remove_association" }

@@ -34,4 +34,16 @@ module RedcapVariablesHelper
       'hide'
     end
   end
+
+  def hide_redcap_variable_child_maps(redcap_variable)
+    if redcap_variable.redcap_variable_map
+      if redcap_variable.redcap_variable_map.map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT
+        ''
+      else
+        'hide'
+      end
+    else
+      'hide'
+    end
+  end
 end

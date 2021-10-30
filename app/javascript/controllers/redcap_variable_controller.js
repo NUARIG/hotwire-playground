@@ -67,7 +67,7 @@ export default class extends Controller {
   }
 
   changeMapType (event) {
-    var controller, redcapVariableConceptId;
+    var controller, redcapVariableConceptId
     controller = this
 
     redcapVariableConceptId = event.target.closest('.redcap_variable_form').querySelector('.concept_id')
@@ -100,6 +100,27 @@ export default class extends Controller {
       case 'mapped':
         redcapVariableChoiceConceptId.classList.remove('hide')
         break
+    }
+  }
+
+  changeRedcapVariableChildMapType (event) {
+    var controller, redcapVariableChildMapRedcapVariableId, redcapVariableChildMapConceptId, redcapVariableChildMapRedcapDerivedDateId
+    controller = this
+
+    redcapVariableChildMapRedcapVariableId = event.target.closest('.redcap_variable_child_map').querySelector('.concept_id input')
+    redcapVariableChildMapConceptId = event.target.closest('.redcap_variable_child_map').querySelector('.concept_id input')
+    redcapVariableChildMapRedcapDerivedDateId = event.target.closest('.redcap_variable_child_map').querySelector('.concept_id input')
+
+    switch(event.target.value) {
+      case 'OMOP column':
+        redcapVariableChildMapConceptId.classList.add('hide')
+        break;
+      case 'OMOP concept':
+        redcapVariableConceptId.classList.remove('hide')
+        break;
+      case 'OMOP concept choice':
+        redcapVariableConceptId.classList.add('hide')
+        break;
     }
   }
 }
