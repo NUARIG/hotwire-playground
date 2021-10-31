@@ -19,12 +19,15 @@
     - if validation_errors?(form.object, :map_type)
       %p.error= format_validation_errors(form.object, :map_type)
   %td.redcap_variable_child_map_omop_column_id.input-field{ width: 200 }
-    = form.text_field :omop_column_id
-  %td.redcap_variable_child_map_redcap_variable_id{ width: 200 }
+    = form.select :omop_column_id, options_for_select(Redcap2omop::OmopColumn.with_table.all.map { |omop_column| ["#{omop_column.omop_table.name.humanize} : #{omop_column.name}", omop_column.id] }, selected = form.object.omop_column_id), { include_blank: true },  class: 'redcap2omop-select'
+    - if validation_errors?(form.object, :omop_column_id)
+      %p.error= format_validation_errors(form.object, :omop_column_id)
+
+  %td.redcap_variable_child_map_redcap_variable_id.input{ width: 200 }
     = form.text_field :redcap_variable_id
-  %td.redcap_variable_child_map_redcap_concept_id{ width: 200 }
+  %td.redcap_variable_child_map_redcap_concept_id.input{ width: 200 }
     = form.text_field :concept_id
-  %td.redcap_variable_child_map_redcap_derived_date_id{ width: 200 }
+  %td.redcap_variable_child_map_redcap_derived_date_id.input{ width: 200 }
     = form.text_field :redcap_derived_date_id
   %td{ width: 200 }
     = link_to "Remove", "#", class: 'waves-effect waves-light btn red', data: { action: "click->nested-form#remove_association" }

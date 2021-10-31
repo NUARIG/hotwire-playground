@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   connect() {
-    var conceptsUrl
+    var conceptsUrl, selects
     conceptsUrl = $('#concepts_url').attr('href');
     $('.concept-select2').select2({
       ajax: {
@@ -38,6 +38,9 @@ export default class extends Controller {
       minimumInputLength: 4
     });
 
+    document.querySelectorAll('select.redcap2omop-select').forEach((select) => {
+      $(select).select2()
+    });
   }
 
   changeCurationStatus (event) {

@@ -5,10 +5,15 @@ export default class extends Controller {
   static values = { index: String }
 
   add_association(event) {
+    var selects
     event.preventDefault()
 
     var content = this.templateTarget.innerHTML.replace(new RegExp(this.indexValue, 'g'), new Date().valueOf())
     this.listTarget.insertAdjacentHTML('beforeend', content)
+
+    document.querySelectorAll('select.redcap2omop-select').forEach((select) => {
+      $(select).select2()
+    });
   }
 
   remove_association(event) {

@@ -1,18 +1,24 @@
-module Redcap2omop::Methods::Models::OmopTable
-  def self.included(base)
-    base.send :include, Redcap2omop::SoftDelete
+module Redcap2omop
+  module Methods
+    module Models
+      module OmopTable
+        def self.included(base)
+          base.send :include, Redcap2omop::SoftDelete
 
-    # Associations
-    base.send :has_many, :omop_columns
-    base.send :accepts_nested_attributes_for, :omop_columns
+          # Associations
+          base.send :has_many, :omop_columns
+          base.send :accepts_nested_attributes_for, :omop_columns
 
-    base.send :include, InstanceMethods
-    base.extend(ClassMethods)
-  end
+          base.send :include, InstanceMethods
+          base.extend(ClassMethods)
+        end
 
-  module InstanceMethods
-  end
+        module InstanceMethods
+        end
 
-  module ClassMethods
+        module ClassMethods
+        end
+      end
+    end
   end
 end
