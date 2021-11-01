@@ -17,7 +17,8 @@ module Redcap2omop
 
           # Validations
           base.send :validates_presence_of, :map_type
-          # base.send :validates_presence_of, :concept_id, if: -> { map_type == Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT }
+          base.send :validates_presence_of, :omop_column_id
+          base.send :validates_presence_of, :concept_id, if: -> { map_type == Redcap2omop::RedcapVariableChildMap::REDCAP_VARIABLE_CHILD_MAP_MAP_TYPE_OMOP_CONCEPT }
 
           base.send :include, InstanceMethods
           base.extend(ClassMethods)

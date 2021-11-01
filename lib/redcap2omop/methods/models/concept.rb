@@ -2,8 +2,6 @@ module Redcap2omop
   module Methods
     module Models
       module Concept
-
-
         CONCEPT_ID_NO_MATCHING_CONCEPT = 0
 
         CONCEPT_CODE_OMOP_GENERATED = 'OMOP generated'

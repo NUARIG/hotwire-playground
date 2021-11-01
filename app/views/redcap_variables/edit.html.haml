@@ -107,7 +107,7 @@
             %h4
               Child Maps
             %template{"data-nested-form-target" => "template"}
-              = form.fields_for :redcap_variable_child_maps, Redcap2omop::RedcapVariableChildMap.new, child_index: 'REDCAP_VARIABLE_CHILD_RECORD' do |redcap_variable_child_map|
+              = form.fields_for :redcap_variable_child_maps, Redcap2omop::RedcapVariableChildMap.new(parentable: @redcap_variable), child_index: 'REDCAP_VARIABLE_CHILD_RECORD' do |redcap_variable_child_map|
                 = render 'redcap_variable_child_map', form: redcap_variable_child_map
             %table
               %thead
