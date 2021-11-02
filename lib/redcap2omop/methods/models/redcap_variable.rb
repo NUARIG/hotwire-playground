@@ -146,6 +146,16 @@ module Redcap2omop
           def get_by_name(name)
             where(name: name).first
           end
+
+          def by_redcap_variable_child_map(redcap_variable_child_map)
+            case redcap_variable_child_map.parentable_type
+            when Redcap2omop::RedcapVariable.to_s
+              redcap_variables = Redcap2omop::RedcapDataDictionary.find(redcap_variable_child_map.parentable.redcap_data_dictionary_id).redcap_variables.where('id NOT IN (?)', redcap_variable_child_map.parentable.id).order('name')
+
+            when Redcap2omop::RedcapVariableChoice.to_s
+              redcap_variables = Redcap2omop::RedcapDataDictionary.find(redcap_variable_child_map.parentable.redcap_variable.redcap_data_dictionary_id).redcap_variables.where('id NOT IN (?)', redcap_variable_child_map.parentable.redcap_variable.id).order('name')
+            end
+          end
         end
       end
     end
