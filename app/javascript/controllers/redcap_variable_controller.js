@@ -1,10 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static targets = [ "redcapVariableForm"]
   connect() {
-    var conceptsUrl, selects
-    conceptsUrl = $('#concepts_url').attr('href');
-    $('.concept-select2').select2({
+    var conceptsUrl, selects, redcapVariableForm
+    conceptsUrl = $('#concepts_url').attr('href')
+
+    $(this.redcapVariableFormTarget).find('.concept-select2').select2({
       ajax: {
         url: conceptsUrl,
         dataType: 'json',

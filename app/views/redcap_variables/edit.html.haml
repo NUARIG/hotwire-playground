@@ -2,7 +2,7 @@
   Editing Variable
 = turbo_frame_tag dom_id(@redcap_variable)  do
   %li.collection-item{ id: 'redcap_variable' }
-    = form_with(model: @redcap_variable, url: redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable), method: 'patch', html: { id: dom_id(@redcap_variable), class: 'redcap_variable_form', data: { controller: 'redcap-variable' } }) do |form|
+    = form_with(model: @redcap_variable, url: redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable), method: 'patch', html: { id: dom_id(@redcap_variable), class: 'redcap_variable_form', data: { controller: 'redcap-variable', "redcap-variable-target" => 'redcapVariableForm' }}) do |form|
       .row
         .col.s12.left-align
           %h3
