@@ -32,7 +32,6 @@ module Redcap2omop
         end
 
         module InstanceMethods
-
           private
             def clean
               case map_type

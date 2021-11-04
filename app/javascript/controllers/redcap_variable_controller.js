@@ -123,19 +123,25 @@ export default class extends Controller {
     var controller, redcapVariableChildMapRedcapVariableId, redcapVariableChildMapConceptId, redcapVariableChildMapRedcapDerivedDateId
     controller = this
 
-    redcapVariableChildMapRedcapVariableId = event.target.closest('.redcap_variable_child_map').querySelector('.concept_id input')
-    redcapVariableChildMapConceptId = event.target.closest('.redcap_variable_child_map').querySelector('.concept_id input')
-    redcapVariableChildMapRedcapDerivedDateId = event.target.closest('.redcap_variable_child_map').querySelector('.concept_id input')
+    redcapVariableChildMapRedcapVariableId = event.target.closest('.redcap_variable_child_map').querySelector('.redcap_variable_child_map_redcap_variable_id .input')
+    redcapVariableChildMapConceptId = event.target.closest('.redcap_variable_child_map').querySelector('.redcap_variable_child_map_redcap_concept_id .input')
+    redcapVariableChildMapRedcapDerivedDateId = event.target.closest('.redcap_variable_child_map').querySelector('.redcap_variable_child_map_redcap_derived_date_id .input')
 
     switch(event.target.value) {
-      case 'OMOP column':
+      case 'REDCap Variable':
+        redcapVariableChildMapRedcapVariableId.classList.remove('hide')
         redcapVariableChildMapConceptId.classList.add('hide')
+        redcapVariableChildMapRedcapDerivedDateId.classList.add('hide')
         break;
-      case 'OMOP concept':
-        redcapVariableConceptId.classList.remove('hide')
+      case 'OMOP Concept':
+        redcapVariableChildMapRedcapVariableId.classList.add('hide')
+        redcapVariableChildMapConceptId.classList.remove('hide')
+        redcapVariableChildMapRedcapDerivedDateId.classList.add('hide')
         break;
-      case 'OMOP concept choice':
-        redcapVariableConceptId.classList.add('hide')
+      case 'REDCap Derived Date':
+        redcapVariableChildMapRedcapVariableId.classList.add('hide')
+        redcapVariableChildMapConceptId.classList.add('hide')
+        redcapVariableChildMapRedcapDerivedDateId.classList.remove('hide')
         break;
     }
   }
