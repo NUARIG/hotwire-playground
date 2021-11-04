@@ -102,33 +102,32 @@
                     %p.error= format_validation_errors(redcap_variable_map_form.object, :concept_id)
 
       .redcap_variable_child_maps{ class: "#{hide_redcap_variable_child_maps(@redcap_variable)}" }
-        - if hide_redcap_variable_child_maps(@redcap_variable) != 'hide'
-          .row
-            .col.s12.left-align{"data-controller" => "nested-form", "data-nested-form-index-value" => "REDCAP_VARIABLE_CHILD_RECORD"}
-              %h4
-                Child Maps
-              %template{"data-nested-form-target" => "template"}
-                = form.fields_for :redcap_variable_child_maps, Redcap2omop::RedcapVariableChildMap.new(parentable: @redcap_variable), child_index: 'REDCAP_VARIABLE_CHILD_RECORD' do |redcap_variable_child_map|
+        .row
+          .col.s12.left-align{"data-controller" => "nested-form", "data-nested-form-index-value" => "REDCAP_VARIABLE_CHILD_RECORD"}
+            %h4
+              Child Maps
+            %template{"data-nested-form-target" => "template"}
+              = form.fields_for :redcap_variable_child_maps, Redcap2omop::RedcapVariableChildMap.new(parentable: @redcap_variable), child_index: 'REDCAP_VARIABLE_CHILD_RECORD' do |redcap_variable_child_map|
+                = render 'redcap_variable_child_map', form: redcap_variable_child_map
+            %table
+              %thead
+                %tr
+                  %th.redcap_variable_child_map_map_type{ width: 200 }
+                    Map Type
+                  %th.redcap_variable_child_map_omop_column_id{ width: 300 }
+                    OMOP Column
+                  %th.redcap_variable_child_map_redcap_variable_id{ width: 300 }
+                    REDCap Variable
+                  %th.redcap_variable_child_map_redcap_concept_id{ width: 200 }
+                    Concept
+                  %th.redcap_variable_child_map_redcap_derived_date{ width: 200 }
+                    Derived Date
+                  %th{ width: 200 }
+              %tbody{"data-nested-form-target" => "list"}
+                = form.fields_for :redcap_variable_child_maps do |redcap_variable_child_map|
                   = render 'redcap_variable_child_map', form: redcap_variable_child_map
-              %table
-                %thead
-                  %tr
-                    %th.redcap_variable_child_map_map_type{ width: 200 }
-                      Map Type
-                    %th.redcap_variable_child_map_omop_column_id{ width: 300 }
-                      OMOP Column
-                    %th.redcap_variable_child_map_redcap_variable_id{ width: 300 }
-                      REDCap Variable
-                    %th.redcap_variable_child_map_redcap_concept_id{ width: 200 }
-                      Concept
-                    %th.redcap_variable_child_map_redcap_derived_date{ width: 200 }
-                      Derived Date
-                    %th{ width: 200 }
-                %tbody{"data-nested-form-target" => "list"}
-                  = form.fields_for :redcap_variable_child_maps do |redcap_variable_child_map|
-                    = render 'redcap_variable_child_map', form: redcap_variable_child_map
-              %div{ class: 'add_item' , "data-nested-form-target" => "add_item"}
-                = link_to "Add Child Map", "#", class: 'waves-effect waves-light btn' , data: { action: "nested-form#add_association" }
+            %div{ class: 'add_item' , "data-nested-form-target" => "add_item"}
+              = link_to "Add Child Map", "#", class: 'waves-effect waves-light btn' , data: { action: "nested-form#add_association" }
       - if @redcap_variable.choice?
         .redcap_variable_choices{ class: "#{hide_redcap_variable_choices(@redcap_variable)}" }
           .row

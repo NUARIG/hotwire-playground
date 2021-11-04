@@ -72,22 +72,33 @@ export default class extends Controller {
   }
 
   changeMapType (event) {
-    var controller, redcapVariableConceptId
+    var controller, redcapVariableConceptId, redcap_variable_child_maps
     controller = this
 
-    redcapVariableConceptId = event.target.closest('.redcap_variable_form').querySelector('.concept_id')
 
+    redcapVariableConceptId = event.target.closest('.redcap_variable_form').querySelector('.concept_id')
+    redcap_variable_child_maps = document.querySelector('.redcap_variable_child_maps');
     switch(event.target.value) {
       case 'OMOP column':
         redcapVariableConceptId.classList.add('hide')
         break;
       case 'OMOP concept':
         redcapVariableConceptId.classList.remove('hide')
+        redcap_variable_child_maps.classList.remove('hide')
         break;
       case 'OMOP concept choice':
         redcapVariableConceptId.classList.add('hide')
+        redcap_variable_child_maps.classList.add('hide')
+        controller.remove_association_redcap_child_variable_maps()
         break;
     }
+  }
+
+  remove_association_redcap_child_variable_maps() {
+    document.querySelectorAll('.redcap_variable_child_maps .redcap_variable_child_map').forEach((item) => {
+      item.querySelector("input[name*='_destroy']").value = 1
+      item.style.display = 'none'
+    });
   }
 
   changeRedcapVariableChoiceCurationStatus (event) {
