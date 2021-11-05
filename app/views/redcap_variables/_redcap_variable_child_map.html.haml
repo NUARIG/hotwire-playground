@@ -23,19 +23,19 @@
     - if validation_errors?(form.object, :omop_column_id)
       %p.error= format_validation_errors(form.object, :omop_column_id)
   %td.redcap_variable_child_map_redcap_variable_id{ width: 300 }
-    .input
+    .input{ class: "#{hide_redcap_variable_child_map_redcap_variable_id(form.object)}" }
       = form.select :redcap_variable_id, options_for_select(Redcap2omop::RedcapVariable.by_redcap_variable_child_map(form.object).all.map { |redcap_variable| ["#{redcap_variable.form_name} : #{redcap_variable.name}", redcap_variable.id] }, selected = form.object.redcap_variable_id), { include_blank: true },  class: 'redcap2omop-select'
       - if validation_errors?(form.object, :redcap_variable_id)
         %p.error= format_validation_errors(form.object, :redcap_variable_id)
   %td.redcap_variable_child_map_redcap_concept_id{ width: 200 }
-    .input
+    .input{ class: "#{hide_redcap_variable_child_map_concept_id(form.object)}" }
       = link_to '', concepts_url(), class: 'hide', id: 'concepts_url'
       - concept = form.object.concept.present? ? form.object.concept : nil
       = form.select :concept_id, options_for_select([concept].compact.map { |concept| [concept.concept_name, concept.concept_id] },form.object.concept_id), { include_blank: true }, class: 'concept-select2', data: { placeholder: 'Search concept' }
       - if validation_errors?(form.object, :concept_id)
         %p.error= format_validation_errors(form.object, :concept_id)
   %td.redcap_variable_child_map_redcap_derived_date_id{ width: 200 }
-    .input
+    .input{ class: "#{hide_redcap_variable_child_map_redcap_derived_date_id(form.object)}" }
       = form.select :redcap_derived_date_id, options_for_select(Redcap2omop::RedcapDerivedDate.by_redcap_variable_child_map(form.object).all.map { |redcap_derived_date| [redcap_derived_date.name, redcap_derived_date.id] }, selected = form.object.redcap_derived_date_id), { include_blank: true },  class: 'redcap2omop-select'
       - if validation_errors?(form.object, :redcap_derived_date_id)
         %p.error= format_validation_errors(form.object, :redcap_derived_date_id)
