@@ -40,7 +40,7 @@ export default class extends Controller {
       minimumInputLength: 4
     });
 
-    document.querySelectorAll('select.redcap2omop-select').forEach((select) => {
+    this.redcapVariableFormTarget.querySelectorAll('select.redcap2omop-select').forEach((select) => {
       $(select).select2()
     });
   }
