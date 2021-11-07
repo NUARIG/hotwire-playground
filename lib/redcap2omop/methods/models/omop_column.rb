@@ -24,12 +24,16 @@ module Redcap2omop
             case redcap_variable_child_map.parentable_type
             when Redcap2omop::RedcapVariable.to_s
               if redcap_variable_child_map.parentable.redcap_variable_map.concept
-                with_table.where('redcap2omop_omop_tables.name = ? AND redcap2omop_omop_columns.name != ?', redcap_variable_child_map.parentable.redcap_variable_map.concept.domain_id.downcase, "#{redcap_variable_child_map.parentable.redcap_variable_map.concept.domain_id.downcase}_concept_id")
+                with_table.where('redcap2omop_omop_tables.name = ? AND redcap2omop_omop_columns.name != ?', redcap_variable_child_map.parentable.redcap_variable_map.concept.domain_table, "#{redcap_variable_child_map.parentable.redcap_variable_map.concept.domain_id.downcase}_concept_id")
               else
                 with_table
               end
             when Redcap2omop::RedcapVariableChoice.to_s
-              with_table.where('redcap2omop_omop_tables.name = ? AND redcap2omop_omop_columns.name != ?', redcap_variable_child_map.parentable.redcap_variable_chocie_map.concept.domain_id.downcase, "#{redcap_variable_child_map.parentable.redcap_variable_choice_map.concept.domain_id.downcase}_concept_id")
+              if redcap_variable_child_map.parentable.redcap_variable_choice_map.concept
+                with_table.where('redcap2omop_omop_tables.name = ? AND redcap2omop_omop_columns.name != ?', redcap_variable_child_map.parentable.redcap_variable_choice_map.concept.domain_table, "#{redcap_variable_child_map.parentable.redcap_variable_choice_map.concept.domain_id.downcase}_concept_id")
+              else
+                with_table
+              end
             end
           end
         end

@@ -16,6 +16,7 @@ module Redcap2omop
           base.send :belongs_to, :redcap_variable
           base.send :has_one, :redcap_variable_choice_map, autosave: true
           base.send :has_many, :redcap_variable_child_maps, as: :parentable
+          base.send :accepts_nested_attributes_for, :redcap_variable_child_maps, allow_destroy: true
 
           # Validations
           base.send :validates_presence_of, :concept_id, if: -> { curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED }

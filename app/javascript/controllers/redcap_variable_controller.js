@@ -2,6 +2,12 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = [ "redcapVariableForm"]
+
+  // https://stackoverflow.com/questions/60026651/safari-unexpected-token-expected-an-opening-before-a-methods-paramet/60026710
+  // constructor() {
+  //   this.targets = [ "redcapVariableForm"]
+  // }
+
   connect() {
     var conceptsUrl, selects, redcapVariableForm
     conceptsUrl = $('#concepts_url').attr('href')

@@ -4,6 +4,12 @@ export default class extends Controller {
   static targets = ["add_item", "template", "list"]
   static values = { index: String }
 
+  // https://stackoverflow.com/questions/60026651/safari-unexpected-token-expected-an-opening-before-a-methods-paramet/60026710
+  // constructor() {
+  //   this.targets = ["add_item", "template", "list"]
+  //   this.values =  { index: String }
+  // }
+
   add_association(event) {
     var selects, conceptsUrl
     event.preventDefault()

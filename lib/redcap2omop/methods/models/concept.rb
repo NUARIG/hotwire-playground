@@ -83,6 +83,14 @@ module Redcap2omop
         end
 
         module InstanceMethods
+          def domain_table
+            omop_table = Redcap2omop::OmopTable.where(domain: self.domain_id).first
+            if omop_table
+              omop_table.name
+            else
+              nil
+            end
+          end
         end
 
         module ClassMethods
