@@ -97,7 +97,7 @@
                 %label
                   %span
                     Concept
-                  = redcap_variable_map_form.select :concept_id, options_for_select(@concepts.map { |concept| [concept.concept_name, concept.concept_id] }, redcap_variable_map_form.object.concept_id), { include_blank: true }, id: "redcap_variable_redcap_variable_map_attributes_#{SecureRandom.uuid.to_s}_concept_id", class: 'concept-select2', data: { placeholder: 'Search concept'}
+                  = redcap_variable_map_form.select :concept_id, options_for_select(@concepts.map { |concept| [concept.full_name, concept.concept_id] }, redcap_variable_map_form.object.concept_id), { include_blank: true }, id: "redcap_variable_redcap_variable_map_attributes_#{SecureRandom.uuid.to_s}_concept_id", class: 'concept-select2', data: { placeholder: 'Search concept'}
                   - if validation_errors?(redcap_variable_map_form.object, :concept_id)
                     %p.error= format_validation_errors(redcap_variable_map_form.object, :concept_id)
 
@@ -187,7 +187,7 @@
                         %span
                           Concept
                         - concept = redcap_variable_choice_form.object.redcap_variable_choice_map.present? ? redcap_variable_choice_form.object.redcap_variable_choice_map.concept : nil
-                        = redcap_variable_choice_form.select :concept_id, options_for_select([concept].compact.map { |concept| [concept.concept_name, concept.concept_id] }, redcap_variable_choice_form.object.concept_id), { include_blank: true }, class: 'concept-select2', data: { placeholder: 'Search concept' }
+                        = redcap_variable_choice_form.select :concept_id, options_for_select([concept].compact.map { |concept| [concept.full_name, concept.concept_id] }, redcap_variable_choice_form.object.concept_id), { include_blank: true }, class: 'concept-select2', data: { placeholder: 'Search concept' }
                         - if validation_errors?(redcap_variable_choice_form.object, :concept_id)
                           %p.error= format_validation_errors(redcap_variable_choice_form.object, :concept_id)
 

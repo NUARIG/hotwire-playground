@@ -91,6 +91,10 @@ module Redcap2omop
               nil
             end
           end
+
+          def full_name
+            "#{self.domain_id} : #{self.concept_name}"
+          end
         end
 
         module ClassMethods

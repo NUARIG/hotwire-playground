@@ -46,7 +46,7 @@
           - if redcap_variable.redcap_variable_map.concept_id
             %label{ for: 'redcap_variable_map_concept_id'}
               Concept
-            %input{ id: 'redcap_variable_map_concept_id', disabled: 'disabled', value: redcap_variable.redcap_variable_map.concept.concept_name, type: 'text' }
+            %input{ id: 'redcap_variable_map_concept_id', disabled: 'disabled', value: redcap_variable.redcap_variable_map.concept.full_name, type: 'text' }
     - if redcap_variable.choice? && redcap_variable.curation_status != Redcap2omop::RedcapVariable::REDCAP_VARIABLE_CURATION_STATUS_SKIPPED
       .redcap_variable_choices
         .row
