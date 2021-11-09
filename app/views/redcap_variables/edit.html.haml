@@ -136,28 +136,26 @@
                 Choices
           .row
             .col.s12
-              %table
-                %thead
-                  %tr
-                    %th.redcap_variable_choice_choice_code_raw{ width: 200 }
-                      Choice Code Raw
-                    %th.redcap_variable_choice_choice_description{ width: 200 }
-                      Choice Description
-                    %th.redcap_variable_choice_vocabulary_id_raw{ width: 200 }
-                      Vocabulary ID Raw
-                    %th.redcap_variable_choice_curation_status{ width: 200 }
-                      Curation Status
-                %tbody
-                  = form.fields_for :redcap_variable_choices, @redcap_variable.redcap_variable_choices.sort_by(&:id) do |redcap_variable_choice_form|
-                    = content_tag(:tr, class: 'redcap_variable_choice', id: "redcap_variable_choice_id{redcap_variable_choice_form.object.id}") do
-                      %td.redcap_variable_choice_choice_code_raw
-                        = redcap_variable_choice_form.hidden_field :id
-                        = redcap_variable_choice_form.object.choice_code_raw
-                      %td.redcap_variable_choice_choice_description
-                        = redcap_variable_choice_form.object.choice_description
-                      %td.redcap_variable_choice_redcap_variable_choice_vocabulary_id_raw
-                        = redcap_variable_choice_form.object.vocabulary_id_raw
-                      %td.redcap_variable_choice_curation_status
+              = form.fields_for :redcap_variable_choices, @redcap_variable.redcap_variable_choices.sort_by(&:id) do |redcap_variable_choice_form|
+                = content_tag(:div, class: 'redcap_variable_choice', id: "redcap_variable_choice_id{redcap_variable_choice_form.object.id}") do
+                  .row
+                    = redcap_variable_choice_form.hidden_field :id
+                    .col.s6.m4.input-field
+                      %label{ for: 'redcap_variable_choice_choice_description'}
+                        Description
+                      %input{ id: 'redcap_variable_choice_choice_description', disabled: 'disabled', value: redcap_variable_choice_form.object.choice_description, type: 'text' }
+                    .col.s6.m4.input-field
+                      %label{ for: 'redcap_variable_choice_choice_code_raw'}
+                        Raw Code
+                      %input{ id: 'redcap_variable_choice_choice_code_raw', disabled: 'disabled', value: redcap_variable_choice_form.object.choice_code_raw, type: 'text' }
+                    .col.s6.m4.input-field
+                      %label{ for: 'redcap_variable_choice_vocabulary_id_raw'}
+                        Vocabulary ID
+                      %input{ id: 'redcap_variable_choice_vocabulary_id_raw', disabled: 'disabled', value: redcap_variable_choice_form.object.vocabulary_id_raw, type: 'text' }
+                  .row
+                    .col.s6.m4.input-field
+                      %legend.left-align
+                        Curation Status
                         %p.left-align
                           %label
                             = redcap_variable_choice_form.radio_button :curation_status, Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED, checked: (redcap_variable_choice_form.object.curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_UNDETERMINED), disabled: true, data: { action: 'change->redcap-variable#changeRedcapVariableChoiceCurationStatus' }
@@ -180,47 +178,51 @@
                               = Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_SKIPPED
                         %p.left-align
                           %label
-                            = redcap_variable_choice_form.radio_button :curation_status, Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED,  checked: (redcap_variable_choice_form.object.curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED), data: { action: 'change->redcap-variable#changeRedcapVariableChoiceCurationStatus' }
+                            = redcap_variable_choice_form.radio_button :curation_status, Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED, checked: (redcap_variable_choice_form.object.curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED), data: { action: 'change->redcap-variable#changeRedcapVariableChoiceCurationStatus' }
                             %span
                               = Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED
-                      %td.redcap_variable_choice_concept_id{ class: "#{hide_redcap_variable_choice_map_concept_id(redcap_variable_choice_form.object)}" }
-                        = link_to '', concepts_url(), class: 'hide', id: 'concepts_url'
-                        %label
-                          %span
-                            Concept
-                          - concept = redcap_variable_choice_form.object.redcap_variable_choice_map.present? ? redcap_variable_choice_form.object.redcap_variable_choice_map.concept : nil
-                          = redcap_variable_choice_form.select :concept_id, options_for_select([concept].compact.map { |concept| [concept.concept_name, concept.concept_id] }, redcap_variable_choice_form.object.concept_id), { include_blank: true }, class: 'concept-select2', data: { placeholder: 'Search concept' }
-                          - if validation_errors?(redcap_variable_choice_form.object, :concept_id)
-                            %p.error= format_validation_errors(redcap_variable_choice_form.object, :concept_id)
-                    = content_tag(:tr, class: 'redcap_variable_choice_redcap_variable_child_maps', id: "redcap_variable_choice_id{redcap_variable_choice_form.object.id}_redcap_variable_child_maps") do
-                      %td{colspan: 5 }
-                        .redcap_variable_child_maps
-                          .row
-                            .col.s12.left-align{"data-controller" => "nested-form", "data-nested-form-index-value" => "REDCAP_VARIABLE_CHILD_RECORD"}
-                              %h4
-                                Child Maps
-                              %template{"data-nested-form-target" => "template"}
-                                = redcap_variable_choice_form.fields_for :redcap_variable_child_maps, Redcap2omop::RedcapVariableChildMap.new(parentable: redcap_variable_choice_form.object), child_index: 'REDCAP_VARIABLE_CHILD_RECORD' do |redcap_variable_child_map|
-                                  = render 'redcap_variable_child_map', form: redcap_variable_child_map
-                              %table
-                                %thead
-                                  %tr
-                                    %th.redcap_variable_child_map_map_type{ width: 200 }
-                                      Map Type
-                                    %th.redcap_variable_child_map_omop_column_id{ width: 300 }
-                                      OMOP Column
-                                    %th.redcap_variable_child_map_redcap_variable_id{ width: 300 }
-                                      REDCap Variable
-                                    %th.redcap_variable_child_map_redcap_concept_id{ width: 200 }
-                                      Concept
-                                    %th.redcap_variable_child_map_redcap_derived_date{ width: 200 }
-                                      Derived Date
-                                    %th{ width: 200 }
-                                %tbody{"data-nested-form-target" => "list"}
-                                  = redcap_variable_choice_form.fields_for :redcap_variable_child_maps do |redcap_variable_child_map|
+                    .col.s6.m4.input-field.redcap_variable_choice_concept_id{ class: "#{hide_redcap_variable_choice_map_concept_id(redcap_variable_choice_form.object)}" }
+                      = link_to '', concepts_url(), class: 'hide', id: 'concepts_url'
+                      %label
+                        %span
+                          Concept
+                        - concept = redcap_variable_choice_form.object.redcap_variable_choice_map.present? ? redcap_variable_choice_form.object.redcap_variable_choice_map.concept : nil
+                        = redcap_variable_choice_form.select :concept_id, options_for_select([concept].compact.map { |concept| [concept.concept_name, concept.concept_id] }, redcap_variable_choice_form.object.concept_id), { include_blank: true }, class: 'concept-select2', data: { placeholder: 'Search concept' }
+                        - if validation_errors?(redcap_variable_choice_form.object, :concept_id)
+                          %p.error= format_validation_errors(redcap_variable_choice_form.object, :concept_id)
+
+                  .row
+                    .col.s12.m12
+                      = content_tag(:tr, class: 'redcap_variable_choice_redcap_variable_child_maps', id: "redcap_variable_choice_id{redcap_variable_choice_form.object.id}_redcap_variable_child_maps") do
+                        %td{colspan: 5 }
+                          .redcap_variable_child_maps
+                            .row
+                              .col.s12.left-align{"data-controller" => "nested-form", "data-nested-form-index-value" => "REDCAP_VARIABLE_CHILD_RECORD"}
+                                %h4
+                                  Child Maps
+                                %template{"data-nested-form-target" => "template"}
+                                  = redcap_variable_choice_form.fields_for :redcap_variable_child_maps, Redcap2omop::RedcapVariableChildMap.new(parentable: redcap_variable_choice_form.object), child_index: 'REDCAP_VARIABLE_CHILD_RECORD' do |redcap_variable_child_map|
                                     = render 'redcap_variable_child_map', form: redcap_variable_child_map
-                              %div{ class: 'add_item' , "data-nested-form-target" => "add_item"}
-                                = link_to "Add Child Map", "#", class: 'waves-effect waves-light btn' , data: { action: "nested-form#add_association" }
+                                %table
+                                  %thead
+                                    %tr
+                                      %th.redcap_variable_child_map_map_type{ width: 200 }
+                                        Map Type
+                                      %th.redcap_variable_child_map_omop_column_id{ width: 300 }
+                                        OMOP Column
+                                      %th.redcap_variable_child_map_redcap_variable_id{ width: 300 }
+                                        REDCap Variable
+                                      %th.redcap_variable_child_map_redcap_concept_id{ width: 200 }
+                                        Concept
+                                      %th.redcap_variable_child_map_redcap_derived_date{ width: 200 }
+                                        Derived Date
+                                      %th{ width: 200 }
+                                  %tbody{"data-nested-form-target" => "list"}
+                                    = redcap_variable_choice_form.fields_for :redcap_variable_child_maps do |redcap_variable_child_map|
+                                      = render 'redcap_variable_child_map', form: redcap_variable_child_map
+                                %div{ class: 'add_item' , "data-nested-form-target" => "add_item"}
+                                  = link_to "Add Child Map", "#", class: 'waves-effect waves-light btn' , data: { action: "nested-form#add_association" }
+                  %hr
       .row
         .col.s12.right-align
           %button{ :type => 'submit', class: 'waves-effect waves-light btn' }
