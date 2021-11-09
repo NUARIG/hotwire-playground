@@ -21,34 +21,34 @@ export default class extends Controller {
           return {
             q: params.term,
             page: params.page
-          };
+          }
         },
         processResults: function(data, params) {
-          var results;
-          params.page = params.page || 1;
+          var results
+          params.page = params.page || 1
           results = $.map(data.concepts, function(obj) {
-            obj.id = obj.concept_id;
-            obj.text = obj.concept_name;
-            return obj;
-          });
+            obj.id = obj.concept_id
+            obj.text = obj.concept_name
+            return obj
+          })
           return {
             results: results,
             pagination: {
               more: params.page * 10 < data.total
             }
-          };
+          }
         },
         cache: true
       },
       escapeMarkup: function(markup) {
-        return markup;
+        return markup
       },
       minimumInputLength: 4
-    });
+    })
 
     this.redcapVariableFormTarget.querySelectorAll('select.redcap2omop-select').forEach((select) => {
       $(select).select2()
-    });
+    })
   }
 
   changeCurationStatus (event) {
@@ -68,12 +68,12 @@ export default class extends Controller {
         if(idRedcapVariableMap != null) {
           destroyRedcapVariableMap.value = 1
         }
-        break;
+        break
       case 'mapped':
         redcapVariableMapForm.classList.toggle('hide')
         redcapVariableChoices.classList.remove('hide')
         destroyRedcapVariableMap.value = null
-        break;
+        break
     }
   }
 
@@ -83,28 +83,44 @@ export default class extends Controller {
 
 
     redcapVariableConceptId = event.target.closest('.redcap_variable_form').querySelector('.concept_id')
-    redcap_variable_child_maps = document.querySelector('.redcap_variable_child_maps');
+    redcap_variable_child_maps = document.querySelector('.redcap_variable_child_maps')
     switch(event.target.value) {
       case 'OMOP column':
         redcapVariableConceptId.classList.add('hide')
-        break;
+        break
       case 'OMOP concept':
         redcapVariableConceptId.classList.remove('hide')
         redcap_variable_child_maps.classList.remove('hide')
-        break;
+        controller.removeAssociationRedcapChildVariableMaps()
+        controller.toggleHideRedcapVariableChoiceRedcapChildVariableMaps()
+        break
       case 'OMOP concept choice':
         redcapVariableConceptId.classList.add('hide')
         redcap_variable_child_maps.classList.add('hide')
-        controller.remove_association_redcap_child_variable_maps()
-        break;
+        controller.removeAssociationRedcapChildVariableMaps()
+        controller.toggleHideRedcapVariableChoiceRedcapChildVariableMaps()
+        break
     }
   }
 
-  remove_association_redcap_child_variable_maps() {
+  removeAssociationRedcapChildVariableMaps() {
     document.querySelectorAll('.redcap_variable_child_maps .redcap_variable_child_map').forEach((item) => {
       item.querySelector("input[name*='_destroy']").value = 1
       item.style.display = 'none'
-    });
+    })
+  }
+
+  removeAssociationRedcapVariableChoiceRedcapChildVariableMaps() {
+    document.querySelectorAll('.redcap_variable_choice_redcap_variable_child_maps .redcap_variable_child_map').forEach((item) => {
+      item.querySelector("input[name*='_destroy']").value = 1
+      item.style.display = 'none'
+    })
+  }
+
+  toggleHideRedcapVariableChoiceRedcapChildVariableMaps() {
+    document.querySelectorAll('.redcap_variable_choice_redcap_variable_child_maps').forEach((item) => {
+      item.classList.toggle('hide')
+    })
   }
 
   changeRedcapVariableChoiceCurationStatus (event) {
@@ -138,17 +154,20 @@ export default class extends Controller {
         redcapVariableChildMapRedcapVariableId.classList.remove('hide')
         redcapVariableChildMapConceptId.classList.add('hide')
         redcapVariableChildMapRedcapDerivedDateId.classList.add('hide')
-        break;
+        break
       case 'OMOP Concept':
         redcapVariableChildMapRedcapVariableId.classList.add('hide')
         redcapVariableChildMapConceptId.classList.remove('hide')
         redcapVariableChildMapRedcapDerivedDateId.classList.add('hide')
-        break;
+        break
       case 'REDCap Derived Date':
         redcapVariableChildMapRedcapVariableId.classList.add('hide')
         redcapVariableChildMapConceptId.classList.add('hide')
         redcapVariableChildMapRedcapDerivedDateId.classList.remove('hide')
-        break;
+        break
     }
   }
+
+
+
 }
