@@ -94,6 +94,7 @@
                     %p.error= format_validation_errors(redcap_variable_map_form.object, :map_type)
               .col.s6.m4.input-field.concept_id{ class: "#{hide_redcap_variable_map_concept_id(@redcap_variable)}" }
                 = link_to '', concepts_url(), class: 'hide', id: 'concepts_url'
+                = hidden_field_tag 'redcap_variable_map_concept_domain_id', (redcap_variable_map_form.object.concept.present? ? redcap_variable_map_form.object.concept.domain_id : nil )
                 %label
                   %span
                     Concept

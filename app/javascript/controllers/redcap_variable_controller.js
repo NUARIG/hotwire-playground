@@ -9,8 +9,10 @@ export default class extends Controller {
   // }
 
   connect() {
-    var conceptsUrl, selects, redcapVariableForm
+    var conceptsUrl, omopColumnsurl, selects, redcapVariableForm, domainId
     conceptsUrl = $('#concepts_url').attr('href')
+    omopColumnsurl = $('#omop_columns_url').attr('href')
+    domainId = this.redcapVariableFormTarget.querySelector('#redcap_variable_map_concept_domain_id').value
 
     $(this.redcapVariableFormTarget).find('.concept-select2').select2({
       ajax: {
@@ -29,6 +31,41 @@ export default class extends Controller {
           results = $.map(data.concepts, function(obj) {
             obj.id = obj.concept_id
             obj.text = obj.concept_name
+            return obj
+          })
+          return {
+            results: results,
+            pagination: {
+              more: params.page * 10 < data.total
+            }
+          }
+        },
+        cache: true
+      },
+      escapeMarkup: function(markup) {
+        return markup
+      },
+      minimumInputLength: 4
+    })
+
+    $(this.redcapVariableFormTarget).find('.omop-column-select2').select2({
+      ajax: {
+        url: omopColumnsurl,
+        dataType: 'json',
+        delay: 250,
+        data: function(params) {
+          return {
+            q: params.term,
+            domain_id: domainId,
+            page: params.page
+          }
+        },
+        processResults: function(data, params) {
+          var results
+          params.page = params.page || 1
+          results = $.map(data.concepts, function(obj) {
+            obj.id = obj.omop_column_id
+            obj.text = obj.omop_column_name
             return obj
           })
           return {
@@ -167,7 +204,4 @@ export default class extends Controller {
         break
     }
   }
-
-
-
 }

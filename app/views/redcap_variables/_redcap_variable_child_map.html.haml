@@ -19,7 +19,9 @@
     - if validation_errors?(form.object, :map_type)
       %p.error= format_validation_errors(form.object, :map_type)
   %td.redcap_variable_child_map_omop_column_id.input-field{ width: 300 }
-    = form.select :omop_column_id, options_for_select(Redcap2omop::OmopColumn.by_redcap_variable_child_map(form.object).all.map { |omop_column| ["#{omop_column.omop_table.name.humanize} : #{omop_column.name}", omop_column.id] }, selected = form.object.omop_column_id), { include_blank: true }, id: "redcap_variable_redcap_variable_child_maps_attributes_#{SecureRandom.uuid.to_s}_omop_column_id", class: 'redcap2omop-select'
+    = link_to '', omop_columns_url(), class: 'hide', id: 'omop_columns_url'
+    - omop_column = form.object.omop_column.present? ? form.object.omop_column : nil
+    = form.select :omop_column_id, options_for_select([omop_column].compact.map { |omop_column| [omop_column.full_name, omop_column.id] }, form.object.omop_column_id), { include_blank: true }, id: "redcap_variable_redcap_variable_child_maps_attributes_#{SecureRandom.uuid.to_s}_omop_column_id", class: 'omop-column-select2', data: { placeholder: 'Search OMOP column' }
     - if validation_errors?(form.object, :omop_column_id)
       %p.error= format_validation_errors(form.object, :omop_column_id)
   %td.redcap_variable_child_map_redcap_variable_id{ width: 300 }

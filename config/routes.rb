@@ -20,4 +20,7 @@ Rails.application.routes.draw do
 
   resources :concepts do
   end
+
+  resources :omop_columns do
+  end
 end
