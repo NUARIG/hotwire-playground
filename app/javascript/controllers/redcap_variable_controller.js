@@ -9,10 +9,10 @@ export default class extends Controller {
   // }
 
   connect() {
-    var conceptsUrl, omopColumnsurl, selects, redcapVariableForm, domainId
+    var conceptsUrl, omopColumnsurl, selects, redcapVariableForm, domainId, that
     conceptsUrl = $('#concepts_url').attr('href')
     omopColumnsurl = $('#omop_columns_url').attr('href')
-    domainId = this.redcapVariableFormTarget.querySelector('#redcap_variable_map_concept_domain_id').value
+    that = this
 
     $(this.redcapVariableFormTarget).find('.concept-select2').select2({
       ajax: {
@@ -56,7 +56,7 @@ export default class extends Controller {
         data: function(params) {
           return {
             q: params.term,
-            domain_id: domainId,
+            domain_id: that.redcapVariableFormTarget.querySelector('#redcap_variable_map_concept_domain_id').value,
             page: params.page
           }
         },
@@ -81,6 +81,11 @@ export default class extends Controller {
         return markup
       },
       minimumInputLength: 4
+    })
+
+    $('.concept-select2').on('select2:select', function () {
+      let event = new Event('change', { bubbles: true }) // fire a native event
+      this.dispatchEvent(event)
     })
 
     this.redcapVariableFormTarget.querySelectorAll('select.redcap2omop-select').forEach((select) => {
@@ -117,7 +122,6 @@ export default class extends Controller {
   changeMapType (event) {
     var controller, redcapVariableConceptId, redcap_variable_child_maps
     controller = this
-
 
     redcapVariableConceptId = event.target.closest('.redcap_variable_form').querySelector('.concept_id')
     redcap_variable_child_maps = document.querySelector('.redcap_variable_child_maps')
@@ -202,6 +206,22 @@ export default class extends Controller {
         redcapVariableChildMapConceptId.classList.add('hide')
         redcapVariableChildMapRedcapDerivedDateId.classList.remove('hide')
         break
+    }
+  }
+
+  changeRedcpVariableMapConceptId(event) {
+    var conceptSelect, redcapVariableMapConceptDomainId, newRedcapVariableMapConceptDomainId, controller
+    controller = this
+
+    conceptSelect = this.redcapVariableFormTarget.querySelector('.concept-select2')
+    redcapVariableMapConceptDomainId = this.redcapVariableFormTarget.querySelector('#redcap_variable_map_concept_domain_id').value
+    newRedcapVariableMapConceptDomainId = conceptSelect.options[conceptSelect.selectedIndex].text.split(':')[0]
+
+    if (redcapVariableMapConceptDomainId == newRedcapVariableMapConceptDomainId) {
+    }
+    else {
+      this.redcapVariableFormTarget.querySelector('#redcap_variable_map_concept_domain_id').value = newRedcapVariableMapConceptDomainId
+      controller.removeAssociationRedcapChildVariableMaps()
     }
   }
 }
