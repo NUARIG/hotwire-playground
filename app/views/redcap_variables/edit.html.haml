@@ -138,7 +138,7 @@
           .row
             .col.s12
               = form.fields_for :redcap_variable_choices, @redcap_variable.redcap_variable_choices.sort_by(&:id) do |redcap_variable_choice_form|
-                = content_tag(:div, class: 'redcap_variable_choice', id: "redcap_variable_choice_id{redcap_variable_choice_form.object.id}") do
+                = content_tag(:div, class: 'redcap_variable_choice', id: "redcap_variable_choice_id_#{redcap_variable_choice_form.object.id}",  data: { controller: 'redcap-variable-choice', "redcap-variable-choice-target" => 'redcapVariableChoice' } ) do
                   .row
                     = redcap_variable_choice_form.hidden_field :id
                     .col.s6.m4.input-field
@@ -184,11 +184,12 @@
                               = Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED
                     .col.s6.m4.input-field.redcap_variable_choice_concept_id{ class: "#{hide_redcap_variable_choice_map_concept_id(redcap_variable_choice_form.object)}" }
                       = link_to '', concepts_url(), class: 'hide', id: 'concepts_url'
+                      = hidden_field_tag 'redcap_variable_choice_map_concept_domain_id', (redcap_variable_choice_form.object.redcap_variable_choice_map.present? ? redcap_variable_choice_form.object.redcap_variable_choice_map.concept.domain_id : nil )
                       %label
                         %span
                           Concept
                         - concept = redcap_variable_choice_form.object.redcap_variable_choice_map.present? ? redcap_variable_choice_form.object.redcap_variable_choice_map.concept : nil
-                        = redcap_variable_choice_form.select :concept_id, options_for_select([concept].compact.map { |concept| [concept.full_name, concept.concept_id] }, redcap_variable_choice_form.object.concept_id), { include_blank: true }, class: 'concept-select2', data: { placeholder: 'Search concept' }
+                        = redcap_variable_choice_form.select :concept_id, options_for_select([concept].compact.map { |concept| [concept.full_name, concept.concept_id] }, redcap_variable_choice_form.object.concept_id), { include_blank: true }, class: 'concept-select2', data: { placeholder: 'Search concept', action:'change->redcap-variable-choice#changeRedcpVariableChoiceMapConceptId' }
                         - if validation_errors?(redcap_variable_choice_form.object, :concept_id)
                           %p.error= format_validation_errors(redcap_variable_choice_form.object, :concept_id)
 

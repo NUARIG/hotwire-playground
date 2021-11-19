@@ -48,7 +48,7 @@ export default class extends Controller {
       minimumInputLength: 4
     })
 
-    $(this.redcapVariableFormTarget).find('.omop-column-select2').select2({
+    $(this.redcapVariableFormTarget).find('.redcap_variable_child_maps .omop-column-select2').select2({
       ajax: {
         url: omopColumnsurl,
         dataType: 'json',
@@ -209,7 +209,7 @@ export default class extends Controller {
     }
   }
 
-  changeRedcpVariableMapConceptId(event) {
+  changeRedcpVariableChoiceMapConceptId(event) {
     var conceptSelect, redcapVariableMapConceptDomainId, newRedcapVariableMapConceptDomainId, controller
     controller = this
 
