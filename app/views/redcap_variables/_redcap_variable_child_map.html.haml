@@ -1,4 +1,4 @@
-= content_tag(:tr, class: 'nested-fields redcap_variable_child_map', id: "redcap_variable_child_map_id_#{form.object.id}") do
+= content_tag(:tr, class: 'nested-fields redcap_variable_child_map', id: "redcap_variable_child_map_id_#{form.object.id}", data: { controller: "#{stimulusController}", "#{stimulusController}-target" => 'redcapVariableChildMap' }) do
   %td.redcap_variable_child_map_map_type.col.input-field{ width: 200 }
     = form.hidden_field :_destroy
     %p.left-align

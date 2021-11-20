@@ -9,7 +9,7 @@ export default class extends Controller {
   // }
 
   connect() {
-    var conceptsUrl, omopColumnsurl, selects, redcapVariableForm, domainId, that
+    var conceptsUrl, omopColumnsurl, selects, that
     conceptsUrl = $('#concepts_url').attr('href')
     omopColumnsurl = $('#omop_columns_url').attr('href')
     that = this
@@ -209,7 +209,7 @@ export default class extends Controller {
     }
   }
 
-  changeRedcpVariableChoiceMapConceptId(event) {
+  changeRedcpVariableMapConceptId(event) {
     var conceptSelect, redcapVariableMapConceptDomainId, newRedcapVariableMapConceptDomainId, controller
     controller = this
 

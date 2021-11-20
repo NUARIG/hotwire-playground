@@ -109,7 +109,7 @@
               Child Maps
             %template{"data-nested-form-target" => "template"}
               = form.fields_for :redcap_variable_child_maps, Redcap2omop::RedcapVariableChildMap.new(parentable: @redcap_variable), child_index: 'REDCAP_VARIABLE_CHILD_RECORD' do |redcap_variable_child_map|
-                = render 'redcap_variable_child_map', form: redcap_variable_child_map
+                = render 'redcap_variable_child_map', form: redcap_variable_child_map, stimulusController: 'redcap-variable-redcap-variable-child-maps'
             %table
               %thead
                 %tr
@@ -126,7 +126,7 @@
                   %th{ width: 200 }
               %tbody{"data-nested-form-target" => "list"}
                 = form.fields_for :redcap_variable_child_maps do |redcap_variable_child_map|
-                  = render 'redcap_variable_child_map', form: redcap_variable_child_map
+                  = render 'redcap_variable_child_map', form: redcap_variable_child_map, stimulusController: 'redcap-variable-redcap-variable-child-maps'
             %div{ class: 'add_item' , "data-nested-form-target" => "add_item"}
               = link_to "Add Child Map", "#", class: 'waves-effect waves-light btn' , data: { action: "nested-form#add_association" }
       - if @redcap_variable.choice?
@@ -202,7 +202,7 @@
                               Child Maps
                             %template{"data-nested-form-target" => "template"}
                               = redcap_variable_choice_form.fields_for :redcap_variable_child_maps, Redcap2omop::RedcapVariableChildMap.new(parentable: redcap_variable_choice_form.object), child_index: 'REDCAP_VARIABLE_CHILD_RECORD' do |redcap_variable_child_map|
-                                = render 'redcap_variable_child_map', form: redcap_variable_child_map
+                                = render 'redcap_variable_child_map', form: redcap_variable_child_map, stimulusController: 'redcap-variable-choice-redcap-variable-child-maps'
                             %table
                               %thead
                                 %tr
@@ -219,7 +219,7 @@
                                   %th{ width: 200 }
                               %tbody{"data-nested-form-target" => "list"}
                                 = redcap_variable_choice_form.fields_for :redcap_variable_child_maps do |redcap_variable_child_map|
-                                  = render 'redcap_variable_child_map', form: redcap_variable_child_map
+                                  = render 'redcap_variable_child_map', form: redcap_variable_child_map, stimulusController: 'redcap-variable-choice-redcap-variable-child-maps'
                             %div{ class: 'add_item' , "data-nested-form-target" => "add_item"}
                               = link_to "Add Child Map", "#", class: 'waves-effect waves-light btn' , data: { action: "nested-form#add_association" }
                   %hr
