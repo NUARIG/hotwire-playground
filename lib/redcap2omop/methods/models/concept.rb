@@ -71,6 +71,16 @@ module Redcap2omop
         CONCEPT_CLASS_UNDEFINED = 'Undefined'
         CONCEPT_CLASSES = [CONCEPT_CLASS_ANSWER, CONCEPT_CLASS_CLINICAL_FINDING, CONCEPT_CLASS_CONDITION_TYPE, CONCEPT_CLASS_DRUG_TYPE, CONCEPT_CLASS_CPT4, CONCEPT_CLASS_DOMAIN, CONCEPT_CLASS_GENDER, CONCEPT_CLASS_ETHNICITY, CONCEPT_CLASS_LAB_TEST, CONCEPT_CLASS_MEAS_TYPE, CONCEPT_CLASS_PROCEDURE_TYPE, CONCEPT_CLASS_QUALIFIER_VALUE, CONCEPT_CLASS_RACE, CONCEPT_CLASS_RELATIONSHIP, CONCEPT_CLASS_SPECIMEN_TYPE, CONCEPT_CLASS_SURVEY, CONCEPT_CLASS_UNIT, CONCEPT_CLASS_UNDEFINED]
 
+        STANDARD_CONCEPT_CLASSIFICATION = 'Classification'
+        STANDARD_CONCEPT_STANDARD = 'Standard'
+        STANDARD_CONCEPT_NON_STANDARD = 'Non-standard'
+        STANDARD_CONCEPTS = [STANDARD_CONCEPT_CLASSIFICATION, STANDARD_CONCEPT_STANDARD, STANDARD_CONCEPT_NON_STANDARD]
+
+        STANDARD_CONCEPTS_CODES = {}
+        STANDARD_CONCEPTS_CODES[STANDARD_CONCEPT_CLASSIFICATION] = 'C'
+        STANDARD_CONCEPTS_CODES[STANDARD_CONCEPT_STANDARD] = 'S'
+        STANDARD_CONCEPTS_CODES[STANDARD_CONCEPT_NON_STANDARD] = nil
+
         def self.included(base)
           base.instance_eval do
             self.table_name   = 'concept'
@@ -98,14 +108,15 @@ module Redcap2omop
         end
 
         module ClassMethods
-          def search(search_token)
+          def search(search_token, domains=[], concepts=[])
+
             all_concepts = []
             search_tokens = search_token.split(' ')
             st = search_tokens.shift
-            all_concepts = Redcap2omop::Concept.standard.valid.mappable_domains.where('lower(concept_name) like ?', "%#{st.downcase}%")
+            all_concepts = Redcap2omop::Concept.mappable_domains(domains).by_standard_concept(concepts).where('lower(concept_name) like ?', "%#{st.downcase}%")
             if search_tokens.any?
               search_tokens.each do |st|
-                concepts = Redcap2omop::Concept.standard.valid.mappable_domains.where('lower(concept_name) like ?', "%#{st.downcase}%")
+                concepts = Redcap2omop::Concept.mappable_domains(domains).by_standard_concept(concepts).where('lower(concept_name) like ?', "%#{st.downcase}%")
                 all_concepts = concepts & all_concepts
               end
             end
@@ -113,8 +124,24 @@ module Redcap2omop
             all_concepts = all_concepts.sort_by { |concept| concept.concept_name }
           end
 
-          def mappable_domains
-            where(domain_id: Redcap2omop::DataServices::RedcapToOmop::MAPPABLE_DOMAINS)
+          def mappable_domains(domains)
+            if domains.empty?
+              where(domain_id: Redcap2omop::DataServices::RedcapToOmop::MAPPABLE_DOMAINS)
+            else
+              where(domain_id: domains)
+            end
+          end
+
+          def by_standard_concept(standard_concepts)
+            if standard_concepts.empty?
+              where(nil)
+            else
+              standard_concept_codes = []
+              standard_concepts.each do |standard_concept|
+                standard_concept_codes << STANDARD_CONCEPTS_CODES[standard_concept]
+              end
+              where(standard_concept: standard_concept_codes)
+            end
           end
 
           def standard

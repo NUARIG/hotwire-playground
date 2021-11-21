@@ -3,10 +3,44 @@
 = turbo_frame_tag dom_id(@redcap_variable)  do
   %li.collection-item{ id: 'redcap_variable' }
     = form_with(model: @redcap_variable, url: redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable), method: 'patch', html: { id: dom_id(@redcap_variable), class: 'redcap_variable_form', data: { controller: 'redcap-variable', "redcap-variable-target" => 'redcapVariableForm' }}) do |form|
+      %template{ data: { 'redcap-variable-target' => 'omopConceptFilter' } }
+        %ul.collapsible.omop-concept-filter
+          %li
+            .collapsible-header
+              %i.material-icons.red-text> fiber_manual_record
+              Domain
+            .collapsible-body
+              / = search_field_tag 'domain'
+              - Redcap2omop::DataServices::RedcapToOmop::MAPPABLE_DOMAINS.sort.each do |domain|
+                %div
+                  %label
+                    = check_box_tag domain, domain, checked=false, class: 'domain'
+                    %span
+                      = domain
+          %li
+            .collapsible-header
+              %i.material-icons.cyan-text> fiber_manual_record
+              Concept
+            .collapsible-body
+              %div
+                %label
+                  = check_box_tag 'Classification', 'Classification', checked=false, class: 'concept'
+                  %span
+                    = 'Classification'
+              %div
+                %label
+                  = check_box_tag 'Non-standard', 'Non-standard', checked=false, class: 'concept'
+                  %span
+                    = 'Non-Standard'
+              %div
+                %label
+                  = check_box_tag 'Standard', 'Standard', checked=false, class: 'concept'
+                  %span
+                    = 'Standard'
       .row
         .col.s12.left-align
           %h3
-            = "Name: #{@redcap_variable.name}"
+            = @redcap_variable.name
       .row
         .col.s6.m4.input-field
           %label{ for: 'redcap_variable_form_name'}
@@ -135,16 +169,16 @@
             .col.s12.left-align
               %h4
                 Choices
+              %hr
           .row
             .col.s12
               = form.fields_for :redcap_variable_choices, @redcap_variable.redcap_variable_choices.sort_by(&:id) do |redcap_variable_choice_form|
                 = content_tag(:div, class: 'redcap_variable_choice', id: "redcap_variable_choice_id_#{redcap_variable_choice_form.object.id}",  data: { controller: 'redcap-variable-choice', "redcap-variable-choice-target" => 'redcapVariableChoice' } ) do
                   .row
                     = redcap_variable_choice_form.hidden_field :id
-                    .col.s6.m4.input-field
-                      %label{ for: 'redcap_variable_choice_choice_description'}
-                        Description
-                      %input{ id: 'redcap_variable_choice_choice_description', disabled: 'disabled', value: redcap_variable_choice_form.object.choice_description, type: 'text' }
+                    .col.s6.m4.left-align
+                      %h5
+                        = redcap_variable_choice_form.object.choice_description
                     .col.s6.m4.input-field
                       %label{ for: 'redcap_variable_choice_choice_code_raw'}
                         Raw Code

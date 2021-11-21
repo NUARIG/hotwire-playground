@@ -1,7 +1,7 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = [ "redcapVariableForm"]
+  static targets = [ 'redcapVariableForm', 'omopConceptFilter']
 
   // https://stackoverflow.com/questions/60026651/safari-unexpected-token-expected-an-opening-before-a-methods-paramet/60026710
   // constructor() {
@@ -9,10 +9,10 @@ export default class extends Controller {
   // }
 
   connect() {
-    var conceptsUrl, omopColumnsurl, selects, that
+    var controller, conceptsUrl, omopColumnsurl, selects
     conceptsUrl = $('#concepts_url').attr('href')
     omopColumnsurl = $('#omop_columns_url').attr('href')
-    that = this
+    controller = this
 
     $(this.redcapVariableFormTarget).find('.concept-select2').select2({
       ajax: {
@@ -20,8 +20,19 @@ export default class extends Controller {
         dataType: 'json',
         delay: 250,
         data: function(params) {
+          var domains, concepts
+          domains = Array.from(document.querySelectorAll('.select2-results .domain:checked')).map(function(domain) {
+            return domain.value
+          })
+
+          concepts = Array.from(document.querySelectorAll('.select2-results .concept:checked')).map(function(domain) {
+            return domain.value
+          })
+
           return {
             q: params.term,
+            domains: domains,
+            concepts: concepts,
             page: params.page
           }
         },
@@ -56,7 +67,7 @@ export default class extends Controller {
         data: function(params) {
           return {
             q: params.term,
-            domain_id: that.redcapVariableFormTarget.querySelector('#redcap_variable_map_concept_domain_id').value,
+            domain_id: controller.redcapVariableFormTarget.querySelector('#redcap_variable_map_concept_domain_id').value,
             page: params.page
           }
         },
@@ -86,6 +97,23 @@ export default class extends Controller {
     $('.concept-select2').on('select2:select', function () {
       let event = new Event('change', { bubbles: true }) // fire a native event
       this.dispatchEvent(event)
+    })
+
+    $('.concept-select2').on('select2:open', function (e) {
+      var select2Results, content, elems, instances, omopConceptFilter
+      select2Results = document.querySelector('.select2-results')
+      omopConceptFilter = select2Results.querySelector('.omop-concept-filter')
+      if (omopConceptFilter) {
+        select2Results.removeChild(omopConceptFilter)
+      }
+
+      content = controller.omopConceptFilterTarget.innerHTML
+      select2Results.insertAdjacentHTML('beforeend', content)
+
+      elems = select2Results.querySelectorAll('.collapsible');
+      instances = M.Collapsible.init(elems, {
+        // specify options here
+      })
     })
 
     this.redcapVariableFormTarget.querySelectorAll('select.redcap2omop-select').forEach((select) => {

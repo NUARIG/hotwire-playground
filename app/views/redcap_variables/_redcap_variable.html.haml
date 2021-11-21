@@ -3,7 +3,7 @@
     .row
       .col.s12.left-align
         %h3
-          = "Name: #{redcap_variable.name}"
+          = redcap_variable.name
     .row
       .col.s6.m4.input-field
         %label{ for: 'redcap_variable_form_name'}
@@ -58,10 +58,9 @@
             %table
               %thead
                 %tr
+                  %th.redcap_variable_choice_choice_description{ width: 200 }
                   %th.redcap_variable_choice_choice_code_raw{ width: 200 }
                     Choice Code Raw
-                  %th.redcap_variable_choice_choice_description{ width: 200 }
-                    Choice Description
                   %th.redcap_variable_choice_vocabulary_id_raw{ width: 200 }
                     Vocabulary ID Raw
                   %th.redcap_variable_choice_curation_status{ width: 200 }
@@ -69,10 +68,10 @@
               %tbody
                 - redcap_variable.redcap_variable_choices.sort_by(&:id).each  do |redcap_variable_choice|
                   = content_tag(:tr, class: 'redcap_variable_choice', id: "redcap_variable_choice_id#{redcap_variable_choice.id}") do
-                    %td.redcap_variable_choice_choice_code_raw
-                      = redcap_variable_choice.choice_code_raw
                     %td.redcap_variable_choice_choice_description
                       = redcap_variable_choice.choice_description
+                    %td.redcap_variable_choice_choice_code_raw
+                      = redcap_variable_choice.choice_code_raw
                     %td.redcap_variable_choice_redcap_variable_choice_vocabulary_id_raw
                       = redcap_variable_choice.vocabulary_id_raw
                     %td.redcap_variable_choice_curation_status
