@@ -20,19 +20,24 @@ export default class extends Controller {
         dataType: 'json',
         delay: 250,
         data: function(params) {
-          var domains, concepts
-          domains = Array.from(document.querySelectorAll('.select2-results .domain:checked')).map(function(domain) {
+          var domains, concepts, conceptClasses
+          domains = Array.from(document.querySelectorAll('.select2-results .omop-domain:checked')).map(function(domain) {
             return domain.value
           })
 
-          concepts = Array.from(document.querySelectorAll('.select2-results .concept:checked')).map(function(domain) {
+          concepts = Array.from(document.querySelectorAll('.select2-results .omop-standard-concept:checked')).map(function(domain) {
             return domain.value
+          })
+
+          conceptClasses = Array.from(document.querySelectorAll('.select2-results .omop-concept-class:checked')).map(function(conceptClass) {
+            return conceptClass.value
           })
 
           return {
             q: params.term,
             domains: domains,
             concepts: concepts,
+            concept_classes: conceptClasses,
             page: params.page
           }
         },

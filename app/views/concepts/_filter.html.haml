@@ -1,0 +1,37 @@
+%template{ data: { 'redcap-variable-target' => 'omopConceptFilter' } }
+  %ul.collapsible.omop-concept-filter{ data: { controller: 'concept-filter' } }
+    %li
+      .collapsible-header
+        %i.material-icons.red-text> fiber_manual_record
+        Domain
+      .collapsible-body
+        / = search_field_tag 'domain'
+        - Redcap2omop::DataServices::RedcapToOmop::MAPPABLE_DOMAINS.sort.each do |omop_domain|
+          %div
+            %label
+              = check_box_tag omop_domain, omop_domain, checked=false, class: 'omop-domain', data: { action: 'change->concept-filter#changeConceptFilterOmopDomain' }
+              %span
+                = omop_domain
+    %li
+      .collapsible-header
+        %i.material-icons.cyan-text> fiber_manual_record
+        Concept
+      .collapsible-body
+        - Redcap2omop::Concept::STANDARD_CONCEPTS.sort.each do |omop_standard_concept|
+          %div
+            %label
+              = check_box_tag omop_standard_concept, omop_standard_concept, checked=false, class: 'omop-standard-concept',data: { action: 'change->concept-filter#changeConceptFilterOmopStandardConcept' }
+              %span
+                = omop_standard_concept
+    %li
+      .collapsible-header
+        %i.material-icons.red-text> fiber_manual_record
+        Class
+      .collapsible-body
+        / = search_field_tag 'domain'
+        - Redcap2omop::DataServices::RedcapToOmop.mappable_classes.sort.each do |omop_concept_class|
+          %div
+            %label
+              = check_box_tag omop_concept_class, omop_concept_class, checked=false, class: 'omop-concept-class', data: { action: 'change->concept-filter#changeConceptFilterOmopConceptClass' }
+              %span
+                = omop_concept_class

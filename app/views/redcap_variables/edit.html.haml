@@ -3,31 +3,7 @@
 = turbo_frame_tag dom_id(@redcap_variable)  do
   %li.collection-item{ id: 'redcap_variable' }
     = form_with(model: @redcap_variable, url: redcap_project_redcap_data_dictionary_redcap_variable_url(@redcap_project, @redcap_variable), method: 'patch', html: { id: dom_id(@redcap_variable), class: 'redcap_variable_form', data: { controller: 'redcap-variable', "redcap-variable-target" => 'redcapVariableForm' }}) do |form|
-      %template{ data: { 'redcap-variable-target' => 'omopConceptFilter' } }
-        %ul.collapsible.omop-concept-filter
-          %li
-            .collapsible-header
-              %i.material-icons.red-text> fiber_manual_record
-              Domain
-            .collapsible-body
-              / = search_field_tag 'domain'
-              - Redcap2omop::DataServices::RedcapToOmop::MAPPABLE_DOMAINS.sort.each do |domain|
-                %div
-                  %label
-                    = check_box_tag domain, domain, checked=false, class: 'domain'
-                    %span
-                      = domain
-          %li
-            .collapsible-header
-              %i.material-icons.cyan-text> fiber_manual_record
-              Concept
-            .collapsible-body
-              - Redcap2omop::Concept::STANDARD_CONCEPTS.sort.each do |standard_concept|
-                %div
-                  %label
-                    = check_box_tag standard_concept, standard_concept, checked=false, class: 'concept'
-                    %span
-                      = standard_concept
+      = render 'concepts/filter'
       .row
         .col.s12.left-align
           %h3

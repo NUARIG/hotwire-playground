@@ -108,15 +108,15 @@ module Redcap2omop
         end
 
         module ClassMethods
-          def search(search_token, domains=[], concepts=[])
+          def search(search_token, domains=[], concepts=[],concept_classes=[])
 
             all_concepts = []
             search_tokens = search_token.split(' ')
             st = search_tokens.shift
-            all_concepts = Redcap2omop::Concept.mappable_domains(domains).by_standard_concept(concepts).where('lower(concept_name) like ?', "%#{st.downcase}%")
+            all_concepts = Redcap2omop::Concept.mappable_domains(domains).by_standard_concept(concepts).by_concept_class(concept_classes).where('lower(concept_name) like ?', "%#{st.downcase}%")
             if search_tokens.any?
               search_tokens.each do |st|
-                concepts = Redcap2omop::Concept.mappable_domains(domains).by_standard_concept(concepts).where('lower(concept_name) like ?', "%#{st.downcase}%")
+                concepts = Redcap2omop::Concept.mappable_domains(domains).by_standard_concept(concepts).by_concept_class(concept_classes).where('lower(concept_name) like ?', "%#{st.downcase}%")
                 all_concepts = concepts & all_concepts
               end
             end
@@ -141,6 +141,14 @@ module Redcap2omop
                 standard_concept_codes << STANDARD_CONCEPTS_CODES[standard_concept]
               end
               where(standard_concept: standard_concept_codes)
+            end
+          end
+
+          def by_concept_class(concept_classes)
+            if concept_classes.empty?
+              where(nil)
+            else
+              where(concept_class_id: concept_classes)
             end
           end
 

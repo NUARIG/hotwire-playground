@@ -25,6 +25,7 @@ module Redcap2omop::DataServices
     end
 
     def self.mappable_classes
+      Redcap2omop::Concept.where(domain_id: Redcap2omop::DataServices::RedcapToOmop::MAPPABLE_DOMAINS).select(:concept_class_id).distinct.order(:concept_class_id).to_sql
       Redcap2omop::Concept.where(domain_id: Redcap2omop::DataServices::RedcapToOmop::MAPPABLE_DOMAINS).select(:concept_class_id).distinct.order(:concept_class_id).map(&:concept_class_id)
     end
 
