@@ -24,6 +24,10 @@ module Redcap2omop::DataServices
       @logger                   = Logger.new("#{Rails.root}/log/redcap_to_omop.log")
     end
 
+    def self.mappable_classes
+      Redcap2omop::Concept.where(domain_id: Redcap2omop::DataServices::RedcapToOmop::MAPPABLE_DOMAINS).select(:concept_class_id).distinct.order(:concept_class_id).map(&:concept_class_id)
+    end
+
     def run
       ActiveRecord::Base.transaction do
         log_message "Converting data for #{redcap_project.name} project"

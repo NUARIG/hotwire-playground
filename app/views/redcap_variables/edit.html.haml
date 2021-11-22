@@ -22,21 +22,12 @@
               %i.material-icons.cyan-text> fiber_manual_record
               Concept
             .collapsible-body
-              %div
-                %label
-                  = check_box_tag 'Classification', 'Classification', checked=false, class: 'concept'
-                  %span
-                    = 'Classification'
-              %div
-                %label
-                  = check_box_tag 'Non-standard', 'Non-standard', checked=false, class: 'concept'
-                  %span
-                    = 'Non-Standard'
-              %div
-                %label
-                  = check_box_tag 'Standard', 'Standard', checked=false, class: 'concept'
-                  %span
-                    = 'Standard'
+              - Redcap2omop::Concept::STANDARD_CONCEPTS.sort.each do |standard_concept|
+                %div
+                  %label
+                    = check_box_tag standard_concept, standard_concept, checked=false, class: 'concept'
+                    %span
+                      = standard_concept
       .row
         .col.s12.left-align
           %h3
