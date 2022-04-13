@@ -7,7 +7,7 @@
         Projects
       = form_tag redcap_projects_url(), method: 'get', :id => 'search_redcap_projects_form'  do
         .row
-          .search.input-field.col.s8
+          .search.input-field.col.s12.m10
             = label_tag :search, 'Search'
             = text_field_tag :search, (params[:search].nil? ? '' : params[:search]), type: 'search'
           .navigation.col.s4.right-align
