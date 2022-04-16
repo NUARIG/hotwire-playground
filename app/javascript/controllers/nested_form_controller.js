@@ -11,7 +11,8 @@ export default class extends Controller {
   // }
 
   add_association(event) {
-    var selects, conceptsUrl
+    var selects, conceptsUrl, controller
+    controller = this
     event.preventDefault()
 
     var content = this.templateTarget.innerHTML.replace(new RegExp(this.indexValue, 'g'), new Date().valueOf())
@@ -28,10 +29,26 @@ export default class extends Controller {
         dataType: 'json',
         delay: 250,
         data: function(params) {
+          var domains, concepts, conceptClasses
+          domains = Array.from(document.querySelectorAll('.select2-results .omop-domain:checked')).map(function(domain) {
+            return domain.value
+          })
+
+          concepts = Array.from(document.querySelectorAll('.select2-results .omop-standard-concept:checked')).map(function(domain) {
+            return domain.value
+          })
+
+          conceptClasses = Array.from(document.querySelectorAll('.select2-results .omop-concept-class:checked')).map(function(conceptClass) {
+            return conceptClass.value
+          })
+
           return {
             q: params.term,
+            domains: domains,
+            concepts: concepts,
+            concept_classes: conceptClasses,
             page: params.page
-          };
+          }
         },
         processResults: function(data, params) {
           var results;
@@ -53,8 +70,29 @@ export default class extends Controller {
       escapeMarkup: function(markup) {
         return markup;
       },
-      minimumInputLength: 4
+      minimumInputLength: 4,
+      dropdownParent: $(this.listTarget).find('.omop_concept_id')
     });
+
+    $('.concept-select2').on('select2:select', function () {
+      let event = new Event('change', { bubbles: true }) // fire a native event
+      this.dispatchEvent(event)
+    })
+
+    $('.concept-select2').on('select2:open', function (e) {
+      var select2Results, content, elems, instances, omopConceptFilter
+      select2Results = document.querySelector('.select2-results')
+      omopConceptFilter = select2Results.querySelector('.omop-concept-filter')
+      if (omopConceptFilter) {
+        select2Results.removeChild(omopConceptFilter)
+      }
+
+      content = document.querySelector('#omopConceptFilter').innerHTML
+      select2Results.insertAdjacentHTML('beforeend', content)
+
+      elems = select2Results.querySelectorAll('.collapsible');
+      instances = M.Collapsible.init(elems, {})
+    })
   }
 
   remove_association(event) {

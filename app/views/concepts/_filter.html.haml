@@ -1,5 +1,5 @@
-%template{ data: { 'redcap-variable-target' => 'omopConceptFilter' } }
-  %ul.collapsible.omop-concept-filter{ data: { controller: 'concept-filter' } }
+%template{ id: 'omopConceptFilter', data: { 'redcap-variable-target' => 'omopConceptFilter' } }
+  %ul.collapsible.omop-concept-filter{ data: { controller: 'concept-filter', 'concept-filter-target' => 'omopConceptFilter' } }
     %li
       .collapsible-header
         %i.material-icons.red-text> fiber_manual_record

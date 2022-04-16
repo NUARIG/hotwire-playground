@@ -1,7 +1,7 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = []
+  static targets = ['omopConceptFilter']
 
   connect() {
   }
@@ -25,8 +25,11 @@ export default class extends Controller {
   }
 
   refreshConceptSelect2 () {
-    var conceptSelect2
-    conceptSelect2 =  $('.concept-select2').data('select2').dropdown.$search
+    var controller, conceptSelect2
+    controller = this
+
+    conceptSelect2 = controller.omopConceptFilterTarget.closest('.omop_concept_id').querySelector('.concept-select2')
+    conceptSelect2 =  $(conceptSelect2).data('select2').dropdown.$search
     conceptSelect2.trigger('input');
   }
 }

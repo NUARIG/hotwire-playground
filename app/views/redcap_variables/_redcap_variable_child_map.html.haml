@@ -29,7 +29,7 @@
       = form.select :redcap_variable_id, options_for_select(Redcap2omop::RedcapVariable.by_redcap_variable_child_map(form.object).all.map { |redcap_variable| ["#{redcap_variable.form_name} : #{redcap_variable.name}", redcap_variable.id] }, selected = form.object.redcap_variable_id), { include_blank: true }, id: "redcap_variable_redcap_variable_child_maps_attributes_#{SecureRandom.uuid.to_s}_redcap_variable_id", class: 'redcap2omop-select'
       - if validation_errors?(form.object, :redcap_variable_id)
         %p.error= format_validation_errors(form.object, :redcap_variable_id)
-  %td.redcap_variable_child_map_redcap_concept_id{ width: 200 }
+  %td.redcap_variable_child_map_redcap_concept_id.omop_concept_id{ width: 200 }
     .input{ class: "#{hide_redcap_variable_child_map_concept_id(form.object)}" }
       = link_to '', concepts_url(), class: 'hide', id: 'concepts_url'
       - concept = form.object.concept.present? ? form.object.concept : nil

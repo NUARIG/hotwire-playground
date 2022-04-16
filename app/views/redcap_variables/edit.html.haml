@@ -93,7 +93,7 @@
                         = Redcap2omop::RedcapVariableMap::REDCAP_VARIABLE_MAP_MAP_TYPE_OMOP_CONCEPT_CHOICE
                   - if validation_errors?(redcap_variable_map_form.object, :map_type)
                     %p.error= format_validation_errors(redcap_variable_map_form.object, :map_type)
-              .col.s6.m4.input-field.concept_id{ class: "#{hide_redcap_variable_map_concept_id(@redcap_variable)}" }
+              .col.s6.m4.input-field.concept_id.omop_concept_id{ class: "#{hide_redcap_variable_map_concept_id(@redcap_variable)}" }
                 = link_to '', concepts_url(), class: 'hide', id: 'concepts_url'
                 = hidden_field_tag 'redcap_variable_map_concept_domain_id', (redcap_variable_map_form.object.concept.present? ? redcap_variable_map_form.object.concept.domain_id : nil )
                 %label
@@ -183,7 +183,7 @@
                             = redcap_variable_choice_form.radio_button :curation_status, Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED, checked: (redcap_variable_choice_form.object.curation_status == Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED), data: { action: 'change->redcap-variable#changeRedcapVariableChoiceCurationStatus' }
                             %span
                               = Redcap2omop::RedcapVariableChoice::REDCAP_VARIABLE_CHOICE_CURATION_STATUS_MAPPED
-                    .col.s6.m4.input-field.redcap_variable_choice_concept_id{ class: "#{hide_redcap_variable_choice_map_concept_id(redcap_variable_choice_form.object)}" }
+                    .col.s6.m4.input-field.redcap_variable_choice_concept_id.omop_concept_id{ class: "#{hide_redcap_variable_choice_map_concept_id(redcap_variable_choice_form.object)}" }
                       = link_to '', concepts_url(), class: 'hide', id: 'concepts_url'
                       = hidden_field_tag 'redcap_variable_choice_map_concept_domain_id', (redcap_variable_choice_form.object.redcap_variable_choice_map.present? ? redcap_variable_choice_form.object.redcap_variable_choice_map.concept.domain_id : nil )
                       %label

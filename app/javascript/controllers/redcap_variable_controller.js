@@ -14,54 +14,59 @@ export default class extends Controller {
     omopColumnsurl = $('#omop_columns_url').attr('href')
     controller = this
 
-    $(this.redcapVariableFormTarget).find('.concept-select2').select2({
-      ajax: {
-        url: conceptsUrl,
-        dataType: 'json',
-        delay: 250,
-        data: function(params) {
-          var domains, concepts, conceptClasses
-          domains = Array.from(document.querySelectorAll('.select2-results .omop-domain:checked')).map(function(domain) {
-            return domain.value
-          })
+    this.redcapVariableFormTarget.querySelectorAll('.concept_id, .redcap_variable_choice_concept_id').forEach((concept_id) => {
+      var select2
+      select2 = concept_id.querySelector('.concept-select2')
+      $(select2).select2({
+        ajax: {
+          url: conceptsUrl,
+          dataType: 'json',
+          delay: 250,
+          data: function(params) {
+            var domains, concepts, conceptClasses
+            domains = Array.from(document.querySelectorAll('.select2-results .omop-domain:checked')).map(function(domain) {
+              return domain.value
+            })
 
-          concepts = Array.from(document.querySelectorAll('.select2-results .omop-standard-concept:checked')).map(function(domain) {
-            return domain.value
-          })
+            concepts = Array.from(document.querySelectorAll('.select2-results .omop-standard-concept:checked')).map(function(domain) {
+              return domain.value
+            })
 
-          conceptClasses = Array.from(document.querySelectorAll('.select2-results .omop-concept-class:checked')).map(function(conceptClass) {
-            return conceptClass.value
-          })
+            conceptClasses = Array.from(document.querySelectorAll('.select2-results .omop-concept-class:checked')).map(function(conceptClass) {
+              return conceptClass.value
+            })
 
-          return {
-            q: params.term,
-            domains: domains,
-            concepts: concepts,
-            concept_classes: conceptClasses,
-            page: params.page
-          }
-        },
-        processResults: function(data, params) {
-          var results
-          params.page = params.page || 1
-          results = $.map(data.concepts, function(obj) {
-            obj.id = obj.concept_id
-            obj.text = obj.concept_name
-            return obj
-          })
-          return {
-            results: results,
-            pagination: {
-              more: params.page * 10 < data.total
+            return {
+              q: params.term,
+              domains: domains,
+              concepts: concepts,
+              concept_classes: conceptClasses,
+              page: params.page
             }
-          }
+          },
+          processResults: function(data, params) {
+            var results
+            params.page = params.page || 1
+            results = $.map(data.concepts, function(obj) {
+              obj.id = obj.concept_id
+              obj.text = obj.concept_name
+              return obj
+            })
+            return {
+              results: results,
+              pagination: {
+                more: params.page * 10 < data.total
+              }
+            }
+          },
+          cache: true
         },
-        cache: true
-      },
-      escapeMarkup: function(markup) {
-        return markup
-      },
-      minimumInputLength: 4
+        escapeMarkup: function(markup) {
+          return markup
+        },
+        minimumInputLength: 4,
+        dropdownParent: $(concept_id)
+      })
     })
 
     $(this.redcapVariableFormTarget).find('.redcap_variable_child_maps .omop-column-select2').select2({
@@ -116,9 +121,7 @@ export default class extends Controller {
       select2Results.insertAdjacentHTML('beforeend', content)
 
       elems = select2Results.querySelectorAll('.collapsible');
-      instances = M.Collapsible.init(elems, {
-        // specify options here
-      })
+      instances = M.Collapsible.init(elems, {})
     })
 
     this.redcapVariableFormTarget.querySelectorAll('select.redcap2omop-select').forEach((select) => {
